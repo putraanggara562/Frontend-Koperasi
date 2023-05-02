@@ -4,8 +4,17 @@
       <q-page class="row items-center justify-center">
         <q-card
           v-bind:style="$q.screen.lt.sm ? { width: '100%' } : { width: '75%' }"
+          class="bg-blue"
         >
           <div class="row q-col-gutter-md items-center">
+            <div
+              class="col-md-6"
+              v-if="$q.screen.lg || $q.screen.xl || $q.screen.md"
+            >
+              <div>
+                <lottie :options="defaultOptions" />
+              </div>
+            </div>
             <div class="row col-xs-12 col-md-6 justify-center">
               <div class="text-center q-mb-lg">
                 <div class="text-h6 q-pt-md text-indigo-10 text-weight-bold">
@@ -83,14 +92,6 @@
                 </q-form>
               </div>
             </div>
-            <div
-              class="col-md-6"
-              v-if="$q.screen.lg || $q.screen.xl || $q.screen.md"
-            >
-              <div>
-                <lottie :options="defaultOptions" />
-              </div>
-            </div>
           </div>
         </q-card>
       </q-page>
@@ -111,15 +112,15 @@ export default {
       isPwd: true,
       visible: false,
       form: {
-        email: "admin",
-        password: 123,
+        email: "admin@gmail.com",
+        password: 1234,
         role: null,
       },
     };
   },
   methods: {
     onSubmit() {
-      this.$router.push({ name: "dashboard" });
+      this.$router.push({ name: "accesPengguna" });
       this.$successNotif("selamat berhasil login", "positive");
     },
     onReset() {

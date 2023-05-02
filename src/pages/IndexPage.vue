@@ -8,28 +8,28 @@
       </q-card>
       <div class="row items-center q-col-gutter-md q-pt-md">
         <div class="col-12 col-md-4 col-sm-6 col-xs-12 col-lg-4">
-          <q-card style="padding: 33px 0px 24px 0px">
+          <q-card flat style="padding: 33px 0px 24px 0px" class="bg-blue">
             <q-item>
               <q-item-section avatar>
                 <q-btn
                   round
-                  color="blue-2"
+                  color="white"
                   text-color="blue-8"
                   icon="business_center"
                 />
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="text-weight-bold q-mb-sm">
-                  SIMPANAN
+                <q-item-label class="text-weight-bold q-mb-sm text-white">
+                  SALDO
                 </q-item-label>
-                <q-item-label caption>
-                  Jumlah simpanan pada bulan ini
+                <q-item-label caption class="text-white">
+                  Jumlah saldo pada bulan ini
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-green"
-                  ><strong>Rp. {{ simpanan }}</strong>
+                <q-item-label class="text-white"
+                  ><strong>Rp. {{ saldo }}</strong>
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -37,28 +37,23 @@
         </div>
 
         <div class="col-md-4 col-sm-6 col-xs-12">
-          <q-card style="padding: 33px 0px 24px 0px">
+          <q-card flat style="padding: 33px 0px 24px 0px" class="bg-green">
             <q-item>
               <q-item-section avatar>
-                <q-btn
-                  round
-                  color="blue-2"
-                  text-color="blue-8"
-                  icon="payments"
-                />
+                <q-btn round color="white" text-color="green" icon="payments" />
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="text-weight-bold q-mb-sm">
-                  PENARIKAN
+                <q-item-label class="text-weight-bold q-mb-sm text-white">
+                  DEBIT
                 </q-item-label>
-                <q-item-label caption>
-                  Jumlah penarikan pada bulan ini
+                <q-item-label caption class="text-white">
+                  Jumlah debit pada bulan ini
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-green"
-                  ><strong>RP. {{ penarikan }}</strong>
+                <q-item-label class="text-white"
+                  ><strong>Rp. {{ debit }}</strong>
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -66,28 +61,28 @@
         </div>
 
         <div class="col-md-4 col-sm-12 col-xs-12">
-          <q-card style="padding: 33px 0px 24px 0px">
+          <q-card flat style="padding: 33px 0px 24px 0px" class="bg-orange-6">
             <q-item>
               <q-item-section avatar>
                 <q-btn
                   round
-                  color="blue-2"
-                  text-color="blue-8"
+                  color="white"
+                  text-color="orange-6"
                   icon="price_change"
                 />
               </q-item-section>
 
               <q-item-section>
-                <q-item-label class="text-weight-bold q-mb-sm">
-                  PINJAMAN
+                <q-item-label class="text-weight-bold q-mb-sm text-white">
+                  KREDIT
                 </q-item-label>
-                <q-item-label caption>
-                  Jumlah pinjaman pada bulan ini
+                <q-item-label caption class="text-white">
+                  Jumlah kredit pada bulan ini
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-green"
-                  ><strong>RP. {{ pinjaman }}</strong>
+                <q-item-label class="text-white"
+                  ><strong>Rp. {{ kredit }}</strong>
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -96,80 +91,102 @@
       </div>
       <div class="row items-center q-col-gutter-md q-py-md">
         <div class="col-md-12 col-xs-12">
-          <q-table
-            :rows="rows"
-            :columns="columns"
-            row-key="name"
-            :filter="filter"
-            :pagination="pagination"
-          >
-            <template v-slot:top>
-              <div class="col">
-                <div class="text-weight-bold">RIWAYAT TRANSAKSI</div>
-                <div>Daftar riwayat transaksi pada saat ini</div>
-              </div>
+          <q-card class="q-mt-sm">
+            <q-card-section class="text-h6 q-pb-none">
+              <q-item>
+                <q-item-section avatar class="">
+                  <q-icon color="blue" name="fas fa-chart-line" size="44px" />
+                </q-item-section>
 
-              <q-space />
-
-              <q-btn
-                flat
-                unelevated
-                icon="document_scanner"
-                text-color="blue-7"
-                @click="exportTable()"
-              >
-                <q-tooltip> Export Data </q-tooltip>
-              </q-btn>
-
-              <q-btn
-                flat
-                color="primary"
-                icon="search"
-                @click="visibles = !visibles"
-                size="md"
-                class="q-mr-sm"
-              />
-              <q-slide-transition>
-                <div v-show="visibles">
-                  <q-input
-                    outlined
-                    debounce="300"
-                    placeholder="Pencarian"
-                    style="width: 200px"
-                    color="primary"
-                    v-model="filter"
-                    dense
-                  />
+                <q-item-section>
+                  <div class="text-weight-bold">Grafik Pertumbuhan Usaha</div>
+                </q-item-section>
+              </q-item>
+            </q-card-section>
+            <q-card-section class="row">
+              <div class="col-lg-7 col-sm-12 col-xs-12 col-md-7">
+                <div class="row">
+                  <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
+                    <q-item>
+                      <q-item-section top avatar>
+                        <q-avatar
+                          color="blue"
+                          text-color="white"
+                          icon="business_center"
+                        />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label class="text-h6 text-blue text-bold">
+                          {{ saldo }}
+                        </q-item-label>
+                        <q-item-label caption>Saldo</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
+                    <q-item>
+                      <q-item-section top avatar>
+                        <q-avatar
+                          color="green-6"
+                          text-color="white"
+                          icon="payments"
+                        />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label class="text-h6 text-green-6 text-bold">
+                          {{ debit }}
+                        </q-item-label>
+                        <q-item-label caption>Debit</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-xs-6 col-sm-6">
+                    <q-item>
+                      <q-item-section top avatar>
+                        <q-avatar
+                          color="orange-6"
+                          text-color="white"
+                          icon="price_change"
+                        />
+                      </q-item-section>
+                      <q-item-section>
+                        <q-item-label class="text-h6 text-orange-6 text-bold">
+                          {{ kredit }}
+                        </q-item-label>
+                        <q-item-label caption>Kredit</q-item-label>
+                      </q-item-section>
+                    </q-item>
+                  </div>
                 </div>
-              </q-slide-transition>
-            </template>
-            <template v-slot:body="props">
-              <q-tr :props="props">
-                <q-td key="kode_transaksi" :props="props">
-                  {{ props.row.kode_transaksi }}
-                </q-td>
-                <q-td key="tanggal" :props="props">
-                  <!-- {{ $parseDate(props.row.created_at).fullDate }} -->
-                  {{ props.row.tanggal }}
-                </q-td>
-                <q-td key="nasabah" :props="props">
-                  {{ props.row.nasabah }}
-                </q-td>
-                <q-td key="tarik" :props="props">
-                  {{ props.row.tarik }}
-                </q-td>
-                <q-td key="masuk" :props="props">
-                  {{ props.row.masuk }}
-                </q-td>
-                <q-td key="saldo" :props="props">
-                  {{ props.row.saldo }}
-                </q-td>
-                <q-td key="pengelola" :props="props">
-                  {{ props.row.pengelola }}
-                </q-td>
-              </q-tr>
-            </template>
-          </q-table>
+                <div>
+                  <div
+                    ref="saleschart"
+                    id="saleschart"
+                    style="height: 250px"
+                  ></div>
+                </div>
+              </div>
+              <div class="col-lg-5 col-sm-12 col-xs-12 col-md-5">
+                <q-item>
+                  <q-item-section avatar class="">
+                    <q-icon
+                      color="blue"
+                      name="fas fa-gift"
+                      class="q-pl-md"
+                      size="24px"
+                    />
+                  </q-item-section>
+
+                  <q-item-section>
+                    <div class="text-h6">Pertumbuhan Uang</div>
+                  </q-item-section>
+                </q-item>
+                <div>
+                  <div ref="piechart" id="piechart" style="height: 250px"></div>
+                </div>
+              </div>
+            </q-card-section>
+          </q-card>
         </div>
       </div>
     </div>
@@ -177,114 +194,161 @@
 </template>
 
 <script>
-import { exportFile } from "quasar";
+import { defineComponent, defineAsyncComponent, ref } from "vue";
 
-const columns = [
-  {
-    name: "kode_transaksi",
-    label: "Kode Transaksi",
-    field: "kode_transaksi",
-    align: "left",
-  },
-  {
-    name: "tanggal",
-    label: "Tanggal",
-    field: "tanggal",
-    align: "left",
-  },
-  {
-    name: "nasabah",
-    label: "Nasabah",
-    field: "nasabah",
-    align: "left",
-  },
-  {
-    name: "tarik",
-    label: "Tarik",
-    field: "tarik",
-    align: "left",
-  },
-  {
-    name: "masuk",
-    label: "Masuk",
-    field: "masuk",
-    align: "left",
-  },
-  {
-    name: "saldo",
-    label: "Saldo",
-    field: "saldo",
-    align: "left",
-  },
-  {
-    name: "pengelola",
-    label: "Pengelola",
-    field: "pengelola",
-    align: "left",
-    tarik: "25.000",
-  },
-];
-
-const rows = [
-  {
-    kode_transaksi: "001",
-    tanggal: "01 Juli 2023",
-    nasabah: "Gunawan",
-    tarik: "tarik",
-    masuk: "masuk",
-    saldo: "saldo",
-    pengelola: "pengelola",
-  },
-  {
-    kode_transaksi: "002",
-    tanggal: "02 Juli 2023",
-    nasabah: "Andre",
-    tarik: "tarik",
-    masuk: "masuk",
-    saldo: "saldo",
-    pengelola: "pengelola",
-  },
-];
-export default {
+export default defineComponent({
   name: "IndexPage",
-  data() {
+  components: {},
+  setup() {
     return {
-      columns,
-      rows,
-      filter: "",
-      pagination: {
-        rowsPerPage: 10,
+      saldo: "200.000",
+      debit: "100.000",
+      kredit: "50.000",
+      sales_options: {
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+          },
+        },
+        grid: {
+          left: "2%",
+          right: "2%",
+          top: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: "category",
+            data: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+          },
+        ],
+        yAxis: [
+          {
+            type: "value",
+            splitLine: {
+              show: false,
+            },
+          },
+        ],
+        series: [
+          {
+            name: "Saldo",
+            type: "bar",
+            data: [40, 45, 27, 50, 32, 50, 70, 30, 30, 40, 67, 29],
+            color: "#389CEC",
+          },
+          {
+            name: "Debit",
+            type: "bar",
+            data: [124, 100, 20, 120, 117, 70, 110, 90, 50, 90, 20, 50],
+            color: "#4CAF50",
+          },
+          {
+            name: "Kredit",
+            type: "bar",
+            data: [17, 2, 0, 29, 20, 10, 23, 0, 8, 20, 11, 30],
+            color: "#f88c2b",
+          },
+        ],
       },
-      visibles: false,
-      simpanan: 20000,
-      penarikan: 25000,
-      pinjaman: 30000,
+      pie_options: {
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b}: {c} ({d}%)",
+        },
+        legend: {
+          bottom: 10,
+          left: "center",
+          data: ["Saldo", "Debit", "Kredit"],
+        },
+        series: [
+          {
+            name: "Sales",
+            type: "pie",
+            radius: ["50%", "70%"],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: "center",
+            },
+            emphasis: {
+              label: {
+                show: false,
+                fontSize: "30",
+                fontWeight: "bold",
+              },
+            },
+            labelLine: {
+              show: false,
+            },
+            data: [
+              {
+                value: 335,
+                name: "Saldo",
+                itemStyle: {
+                  color: "#389CEC",
+                },
+              },
+              {
+                value: 310,
+                name: "Debit",
+                itemStyle: {
+                  color: "#4CAF50",
+                },
+              },
+              {
+                value: 135,
+                name: "Kredit",
+                itemStyle: {
+                  color: "#f88c2b",
+                },
+              },
+            ],
+          },
+        ],
+      },
+      sales_chart: null,
+      pie_chart: null,
     };
   },
+  mounted() {
+    this.init();
+  },
   methods: {
-    exportTable() {
-      const content = [
-        "Kode Transaksi; Tanggal; Nasabah; Tarik; Masuk; Saldo; Pengelola",
-      ]
-        .concat(
-          this.rows.map((row) => {
-            return `${row.kode_transaksi};${row.tanggal};${row.nasabah};${row.tarik};${row.masuk};${row.saldo};${row.pengelola}`;
-          })
-        )
-        .join("\r\n");
-      const status = exportFile(
-        "daftar-riwayat-transaksi.csv",
-        content,
-        "text/csv"
-      );
-      if (status !== true) {
-        this.$q.notify({
-          message: "Browser denied file download...",
-          color: "negative",
-          icon: "warning",
-        });
+    init() {
+      let salesChart = document.getElementById("saleschart");
+      echarts.dispose(salesChart);
+      this.sales_chart = echarts.init(salesChart, "light");
+      this.sales_chart.setOption(this.sales_options);
+
+      let piechart = document.getElementById("piechart");
+      echarts.dispose(piechart);
+      this.pie_chart = echarts.init(piechart, "light");
+      this.pie_chart.setOption(this.pie_options);
+    },
+    onResize() {
+      if (this.sales_chart) {
+        this.sales_chart.resize();
+      }
+      if (this.pie_chart) {
+        this.pie_chart.resize();
       }
     },
   },
-};
+});
 </script>

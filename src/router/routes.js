@@ -14,24 +14,24 @@ const routes = [
         component: () => import("pages/Nasabah.vue"),
       },
       {
-        path: "/simpanan",
-        name: "simpanan",
-        component: () => import("pages/Simpanan.vue"),
+        path: "/pendapatan",
+        name: "pendapatan",
+        component: () => import("pages/Pendapatan.vue"),
       },
       {
-        path: "/pinjaman",
-        name: "pinjaman",
-        component: () => import("pages/Pinjaman.vue"),
+        path: "/pengeluaran",
+        name: "pengeluaran",
+        component: () => import("pages/Pengeluaran.vue"),
       },
       {
-        path: "/penarikan",
-        name: "penarikan",
-        component: () => import("pages/Penarikan.vue"),
+        path: "/peminjaman",
+        name: "peminjaman",
+        component: () => import("pages/Peminjaman.vue"),
       },
       {
-        path: "/laporan-simpanan",
-        name: "laporanSimpanan",
-        component: () => import("pages/laporan/LaporanSimpanan.vue"),
+        path: "/data-laporan",
+        name: "dataLaporan",
+        component: () => import("pages/laporan/DataLaporan.vue"),
       },
       {
         path: "/laporan-penarikan",
@@ -52,9 +52,26 @@ const routes = [
   },
 
   {
+    path: "",
+    component: () => import("layouts/KopiLayout.vue"),
+    children: [
+      {
+        path: "/Dashboard",
+        name: "dashboardKopi",
+        component: () => import("pages/UsahaKopi/Dashboard.vue"),
+      },
+    ],
+  },
+
+  {
     path: "/login",
     name: "login",
     component: () => import("pages/access/LoginPage.vue"),
+  },
+  {
+    path: "/acces-pengguna",
+    name: "accesPengguna",
+    component: () => import("pages/access/MenuAcces.vue"),
   },
   {
     path: "/:catchAll(.*)*",

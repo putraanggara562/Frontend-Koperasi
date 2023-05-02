@@ -17,11 +17,19 @@
           size="md"
           icon="account_circle"
           color="white"
-          label="Gunawan"
+          label="Administrator"
         >
           <div class="row no-wrap q-pa-md">
             <div class="column">
-              <div class="text-h6 q-mb-md">Settings</div>
+              <div class="text-h6 q-mb-sm">Settings</div>
+              <q-btn
+                color="primary"
+                outline
+                label="Akses Pengguna"
+                :to="{ name: 'accesPengguna' }"
+                size="sm"
+                v-close-popup
+              />
             </div>
 
             <q-separator vertical inset class="q-mx-lg" />
@@ -53,9 +61,9 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="280">
       <div class="q-mt-md q-ml-md">
-        <q-btn dense flat round icon="lens" size="8.5px" color="red" />
-        <q-btn dense flat round icon="lens" size="8.5px" color="yellow" />
+        <q-btn dense flat round icon="lens" size="8.5px" color="blue" />
         <q-btn dense flat round icon="lens" size="8.5px" color="green" />
+        <q-btn dense flat round icon="lens" size="8.5px" color="orange-6" />
       </div>
       <q-list>
         <q-card flat class="text-justify q-py-md">
@@ -70,7 +78,7 @@
                 Koperasi Apps
               </q-item-label>
               <q-item-label class="text-grey text-overline">
-                Administrator
+                Gunawan
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -99,6 +107,48 @@
           clickable
           active-class="active"
           v-ripple
+          :to="{ name: 'pengeluaran' }"
+        >
+          <q-item-section avatar>
+            <q-icon name="price_change" size="sm" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Pengeluaran</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
+          active-class="active"
+          v-ripple
+          :to="{ name: 'peminjaman' }"
+        >
+          <q-item-section avatar>
+            <q-icon name="payments" size="sm" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Peminjaman</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
+          active-class="active"
+          v-ripple
+          :to="{ name: 'pendapatan' }"
+        >
+          <q-item-section avatar>
+            <q-icon name="business_center" size="sm" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Pendapatan</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item
+          clickable
+          active-class="active"
+          v-ripple
           :to="{ name: 'nasabah' }"
         >
           <q-item-section avatar>
@@ -109,66 +159,26 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          clickable
-          active-class="active"
-          v-ripple
-          :to="{ name: 'simpanan' }"
-        >
-          <q-item-section avatar>
-            <q-icon name="business_center" size="sm" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Simpanan</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          active-class="active"
-          v-ripple
-          :to="{ name: 'pinjaman' }"
-        >
-          <q-item-section avatar>
-            <q-icon name="price_change" size="sm" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Pinjaman</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item
-          clickable
-          active-class="active"
-          v-ripple
-          :to="{ name: 'penarikan' }"
-        >
-          <q-item-section avatar>
-            <q-icon name="payments" size="sm" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Penarikan</q-item-label>
-          </q-item-section>
-        </q-item>
-
         <q-item>
           <q-item-section class="text-blue-8 text-weight-bold">
             MASTER LAPORAN
           </q-item-section>
         </q-item>
 
-        <q-expansion-item
+        <q-item clickable :to="{ name: 'dataLaporan' }" v-ripple>
+          <q-item-section avatar>
+            <q-icon name="description" />
+          </q-item-section>
+          <q-item-section> Data Laporan </q-item-section>
+        </q-item>
+
+        <!-- Menu Dropdown Upcoming -->
+        <!-- <q-expansion-item
           expand-separator
           icon="description"
           label="Data Laporan"
           :content-inset-level="1"
         >
-          <q-item clickable :to="{ name: 'laporanSimpanan' }" v-ripple>
-            <q-item-section avatar>
-              <q-icon name="business_center" />
-            </q-item-section>
-            <q-item-section> Laporan Simpanan </q-item-section>
-          </q-item>
           <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
             <q-item-section avatar>
               <q-icon name="payments" />
@@ -181,7 +191,7 @@
             </q-item-section>
             <q-item-section> Laporan Pinjaman </q-item-section>
           </q-item>
-        </q-expansion-item>
+        </q-expansion-item> -->
 
         <q-item>
           <q-item-section class="text-blue-8 text-weight-bold">

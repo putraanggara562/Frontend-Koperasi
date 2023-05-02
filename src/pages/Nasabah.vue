@@ -86,6 +86,9 @@
                 <q-td key="status" :props="props">
                   {{ props.row.status }}
                 </q-td>
+                <q-td key="JumlahPinjaman" :props="props">
+                  {{ props.row.JumlahPinjaman }}
+                </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
                     <q-btn
@@ -252,6 +255,12 @@ const columns = [
     align: "left",
   },
   {
+    name: "JumlahPinjaman",
+    label: "Jumlah Pinjaman",
+    field: "JumlahPinjaman",
+    align: "left",
+  },
+  {
     name: "action",
     label: "Action",
     field: "action",
@@ -268,6 +277,7 @@ const rows = [
     alamat: "alamat",
     kelamin: "kelamin",
     status: "status",
+    JumlahPinjaman: "Rp.0",
   },
   {
     no_anggota: "002",
@@ -276,6 +286,7 @@ const rows = [
     alamat: "alamat",
     kelamin: "kelamin",
     status: "status",
+    JumlahPinjaman: "Rp.0",
   },
 ];
 export default {
