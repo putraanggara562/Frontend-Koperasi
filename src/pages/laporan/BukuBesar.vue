@@ -5,7 +5,7 @@
         <q-breadcrumbs separator="---" class="text-blue-8" active-color="black">
           <q-breadcrumbs-el label="Master Laporan" icon="widgets" />
           <q-breadcrumbs-el label="Data Laporan" icon="description" />
-          <q-breadcrumbs-el label="Laporan Pinjaman" icon="price_change" />
+          <q-breadcrumbs-el label="Laporan Buku Besar" icon="payments" />
         </q-breadcrumbs>
       </q-card>
       <div class="row items-center q-col-gutter-md q-pt-md">
@@ -19,8 +19,8 @@
           >
             <template v-slot:top>
               <div class="col">
-                <div class="text-weight-bold">LAPORAN PINJAMAN</div>
-                <div>Daftar laporan pinjaman pada saat ini</div>
+                <div class="text-weight-bold">LAPORAN BUKU BESAR</div>
+                <div>Daftar laporan buku besar pada saat ini</div>
               </div>
 
               <q-space />
@@ -30,7 +30,7 @@
                 unelevated
                 icon="document_scanner"
                 text-color="blue-7"
-                @click="exportToCSV()"
+                @click="exportTable()"
               >
                 <q-tooltip> Export Data </q-tooltip>
               </q-btn>
@@ -59,29 +59,23 @@
             </template>
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="kode_transaksi" :props="props">
-                  {{ props.row.kode_transaksi }}
-                </q-td>
-                <q-td key="nasabah" :props="props">
-                  {{ props.row.nasabah }}
-                </q-td>
-                <q-td key="dipinjam" :props="props">
-                  {{ props.row.dipinjam }}
-                </q-td>
-                <q-td key="dibayar" :props="props">
-                  {{ props.row.dibayar }}
-                </q-td>
-                <q-td key="sisa_pembayaran" :props="props">
-                  {{ props.row.sisa_pembayaran }}
-                </q-td>
-                <q-td key="durasi_perbulan" :props="props">
-                  {{ props.row.durasi_perbulan }}
-                </q-td>
                 <q-td key="created_at" :props="props">
                   {{ props.row.created_at }}
                 </q-td>
-                <q-td key="pengelola" :props="props">
-                  {{ props.row.pengelola }}
+                <q-td key="coa" :props="props">
+                  {{ props.row.coa }}
+                </q-td>
+                <q-td key="akun" :props="props">
+                  {{ props.row.akun }}
+                </q-td>
+                <q-td key="deskripsi" :props="props">
+                  {{ props.row.deskripsi }}
+                </q-td>
+                <q-td key="debet" :props="props">
+                  {{ props.row.debet }}
+                </q-td>
+                <q-td key="kredit" :props="props">
+                  {{ props.row.kredit }}
                 </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
@@ -113,43 +107,9 @@
 </template>
 
 <script>
+import { exportFile } from "quasar";
+
 const columns = [
-  {
-    name: "kode_transaksi",
-    label: "Kode Transaksi",
-    field: "kode_transaksi",
-    align: "left",
-  },
-  {
-    name: "nasabah",
-    label: "Nama Nasabah",
-    field: "nasabah",
-    align: "left",
-  },
-  {
-    name: "dipinjam",
-    label: "Dipinjam",
-    field: "dipinjam",
-    align: "left",
-  },
-  {
-    name: "dibayar",
-    label: "Dibayar",
-    field: "dibayar",
-    align: "left",
-  },
-  {
-    name: "sisa_pembayaran",
-    label: "Sisa Pembayaran",
-    field: "sisa_pembayaran",
-    align: "left",
-  },
-  {
-    name: "durasi_perbulan",
-    label: "Durasi /Perbulan",
-    field: "durasi_perbulan",
-    align: "left",
-  },
   {
     name: "created_at",
     label: "Tanggal",
@@ -157,9 +117,33 @@ const columns = [
     align: "left",
   },
   {
-    name: "pengelola",
-    label: "Pengelola",
-    field: "pengelola",
+    name: "coa",
+    label: "COA",
+    field: "coa",
+    align: "left",
+  },
+  {
+    name: "akun",
+    label: "Akun",
+    field: "akun",
+    align: "left",
+  },
+  {
+    name: "deskripsi",
+    label: "Deskripsi",
+    field: "deskripsi",
+    align: "left",
+  },
+  {
+    name: "debet",
+    label: "Debet",
+    field: "debet",
+    align: "left",
+  },
+  {
+    name: "kredit",
+    label: "Kredit",
+    field: "kredit",
     align: "left",
   },
   {
@@ -173,29 +157,24 @@ const columns = [
 
 const rows = [
   {
-    kode_transaksi: "001",
-    nasabah: "Gunawan",
-    dipinjam: "dipinjam",
-    dibayar: "dibayar",
-    sisa_pembayaran: "sisa pembayaran",
-    durasi_perbulan: "durasi perbulan",
     created_at: "01 Juli 2023",
-    pengelola: "pengelola",
+    coa: "10xx",
+    akun: "Bank",
+    deskripsi: "dibayar",
+    debet: "sisa pembayaran",
+    kredit: "pengelola",
   },
   {
-    kode_transaksi: "002",
     created_at: "02 Juli 2023",
-    nasabah: "Andre",
-    dipinjam: "dipinjam",
-    dibayar: "dibayar",
-    sisa_pembayaran: "sisa pembayaran",
-    durasi_perbulan: "durasi perbulan",
-    created_at: "01 Juli 2023",
-    pengelola: "pengelola",
+    coa: "10xx",
+    akun: "Bank",
+    deskripsi: "dibayar",
+    debet: "sisa pembayaran",
+    kredit: "pengelola",
   },
 ];
 export default {
-  name: "LaporanPinjaman",
+  name: "BukuBesarPage",
   data() {
     return {
       columns,
@@ -207,11 +186,24 @@ export default {
       visibles: false,
     };
   },
-  created() {
-    this.getLaporanPinjaman();
-  },
   methods: {
-    getLaporanPinjaman() {},
+    exportTable() {
+      const content = ["Tanggal; COA; Akun; Deskripsi; Debet; Kredit"]
+        .concat(
+          this.rows.map((row) => {
+            return `${row.created_at};${row.coa};${row.akun};${row.deskripsi};${row.debet};${row.kredit}`;
+          })
+        )
+        .join("\r\n");
+      const status = exportFile("laporan-buku-besar.csv", content, "text/csv");
+      if (status !== true) {
+        this.$q.notify({
+          message: "Browser denied file download...",
+          color: "negative",
+          icon: "warning",
+        });
+      }
+    },
   },
 };
 </script>

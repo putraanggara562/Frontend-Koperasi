@@ -5,7 +5,10 @@
         <q-breadcrumbs separator="---" class="text-blue-8" active-color="black">
           <q-breadcrumbs-el label="Master Laporan" icon="widgets" />
           <q-breadcrumbs-el label="Data Laporan" icon="description" />
-          <q-breadcrumbs-el label="Laporan Penarikan" icon="payments" />
+          <q-breadcrumbs-el
+            label="Laporan Buku Pembantu Advance"
+            icon="payments"
+          />
         </q-breadcrumbs>
       </q-card>
       <div class="row items-center q-col-gutter-md q-pt-md">
@@ -19,8 +22,10 @@
           >
             <template v-slot:top>
               <div class="col">
-                <div class="text-weight-bold">LAPORAN PENARIKAN</div>
-                <div>Daftar laporan penarikan pada saat ini</div>
+                <div class="text-weight-bold">
+                  LAPORAN BUKU PEMBANTU ADVANCE
+                </div>
+                <div>Daftar laporan buku pembantu advance pada saat ini</div>
               </div>
 
               <q-space />
@@ -30,7 +35,7 @@
                 unelevated
                 icon="document_scanner"
                 text-color="blue-7"
-                @click="exportToCSV()"
+                @click="exportTable()"
               >
                 <q-tooltip> Export Data </q-tooltip>
               </q-btn>
@@ -59,26 +64,23 @@
             </template>
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="kode_transaksi" :props="props">
-                  {{ props.row.kode_transaksi }}
-                </q-td>
                 <q-td key="created_at" :props="props">
                   {{ props.row.created_at }}
                 </q-td>
-                <q-td key="nasabah" :props="props">
-                  {{ props.row.nasabah }}
+                <q-td key="coa" :props="props">
+                  {{ props.row.coa }}
                 </q-td>
-                <q-td key="debit" :props="props">
-                  {{ props.row.debit }}
+                <q-td key="akun" :props="props">
+                  {{ props.row.akun }}
+                </q-td>
+                <q-td key="deskripsi" :props="props">
+                  {{ props.row.deskripsi }}
+                </q-td>
+                <q-td key="debet" :props="props">
+                  {{ props.row.debet }}
                 </q-td>
                 <q-td key="kredit" :props="props">
                   {{ props.row.kredit }}
-                </q-td>
-                <q-td key="saldo" :props="props">
-                  {{ props.row.saldo }}
-                </q-td>
-                <q-td key="pengelola" :props="props">
-                  {{ props.row.pengelola }}
                 </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
@@ -110,13 +112,9 @@
 </template>
 
 <script>
+import { exportFile } from "quasar";
+
 const columns = [
-  {
-    name: "kode_transaksi",
-    label: "Kode Transaksi",
-    field: "kode_transaksi",
-    align: "left",
-  },
   {
     name: "created_at",
     label: "Tanggal",
@@ -124,33 +122,33 @@ const columns = [
     align: "left",
   },
   {
-    name: "nasabah",
-    label: "Nama Nasabah",
-    field: "nasabah",
+    name: "coa",
+    label: "COA",
+    field: "coa",
     align: "left",
   },
   {
-    name: "debit",
-    label: "Debit",
-    field: "debit",
+    name: "akun",
+    label: "Akun",
+    field: "akun",
+    align: "left",
+  },
+  {
+    name: "deskripsi",
+    label: "Deskripsi",
+    field: "deskripsi",
+    align: "left",
+  },
+  {
+    name: "debet",
+    label: "Debet",
+    field: "debet",
     align: "left",
   },
   {
     name: "kredit",
     label: "Kredit",
     field: "kredit",
-    align: "left",
-  },
-  {
-    name: "saldo",
-    label: "Saldo",
-    field: "saldo",
-    align: "left",
-  },
-  {
-    name: "pengelola",
-    label: "Pengelola",
-    field: "pengelola",
     align: "left",
   },
   {
@@ -164,26 +162,24 @@ const columns = [
 
 const rows = [
   {
-    kode_transaksi: "001",
     created_at: "01 Juli 2023",
-    nasabah: "Gunawan",
-    debit: "dipinjam",
-    kredit: "dibayar",
-    saldo: "sisa pembayaran",
-    pengelola: "pengelola",
+    coa: "10xx",
+    akun: "Bank",
+    deskripsi: "dibayar",
+    debet: "sisa pembayaran",
+    kredit: "pengelola",
   },
   {
-    kode_transaksi: "002",
     created_at: "02 Juli 2023",
-    nasabah: "Andre",
-    debit: "dipinjam",
-    kredit: "dibayar",
-    saldo: "sisa pembayaran",
-    pengelola: "pengelola",
+    coa: "10xx",
+    akun: "Bank",
+    deskripsi: "dibayar",
+    debet: "sisa pembayaran",
+    kredit: "pengelola",
   },
 ];
 export default {
-  name: "LaporanPenarikan",
+  name: "BukuPembantuAdvancePage",
   data() {
     return {
       columns,
@@ -195,6 +191,28 @@ export default {
       visibles: false,
     };
   },
-  methods: {},
+  methods: {
+    exportTable() {
+      const content = ["Tanggal; COA; Akun; Deskripsi; Debet; Kredit"]
+        .concat(
+          this.rows.map((row) => {
+            return `${row.created_at};${row.coa};${row.akun};${row.deskripsi};${row.debet};${row.kredit}`;
+          })
+        )
+        .join("\r\n");
+      const status = exportFile(
+        "laporan-buku-pembantu-advance.csv",
+        content,
+        "text/csv"
+      );
+      if (status !== true) {
+        this.$q.notify({
+          message: "Browser denied file download...",
+          color: "negative",
+          icon: "warning",
+        });
+      }
+    },
+  },
 };
 </script>

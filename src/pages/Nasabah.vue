@@ -155,11 +155,10 @@
             <q-card-section class="q-gutter-xs fit">
               <q-input
                 dense
-                type="number"
-                v-model="no_anggota"
+                v-model="alamat"
                 outlined
-                label="No Anggota"
-                hint="No Anggota"
+                label="Alamat"
+                hint="Alamat"
               />
               <q-input dense v-model="nama" outlined label="Nama" hint="Nama" />
               <q-input
@@ -177,13 +176,6 @@
             <q-card-section class="q-gutter-xs fit">
               <q-input
                 dense
-                v-model="alamat"
-                outlined
-                label="Alamat"
-                hint="Alamat"
-              />
-              <q-input
-                dense
                 v-model="kelamin"
                 outlined
                 label="Jenis Kelamin"
@@ -198,6 +190,13 @@
                 :options="optionStatus"
                 label="Status"
                 :rules="[(val) => val !== null || 'Status tidak boleh kosong']"
+              />
+              <q-input
+                dense
+                v-model="jumlahPinjaman"
+                outlined
+                label="Jumlah Pinjaman"
+                hint="Jumlah Pinjaman"
               />
             </q-card-section>
           </q-card-section>
@@ -331,8 +330,6 @@ export default {
       this.kelamin = null;
       this.status = null;
     },
-  },
-  methods: {
     exportTable() {
       const content = ["No Anggota; Nama; Email; Alamat; Kelamin; Status"]
         .concat(

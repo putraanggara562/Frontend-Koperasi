@@ -34,14 +34,14 @@ const routes = [
         component: () => import("pages/laporan/DataLaporan.vue"),
       },
       {
-        path: "/laporan-penarikan",
-        name: "laporanPenarikan",
-        component: () => import("pages/laporan/LaporanPenarikan.vue"),
+        path: "/laporan-buku-besar",
+        name: "laporanBukuBesar",
+        component: () => import("pages/laporan/BukuBesar.vue"),
       },
       {
-        path: "/laporan-pinjaman",
-        name: "laporanPinjaman",
-        component: () => import("pages/laporan/LaporanPinjaman.vue"),
+        path: "/laporan-buku-bank",
+        name: "laporanBukuBank",
+        component: () => import("pages/laporan/BukuBank.vue"),
       },
       {
         path: "/profil",

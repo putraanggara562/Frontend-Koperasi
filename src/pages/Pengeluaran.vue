@@ -296,7 +296,7 @@ const rows = [
   },
 ];
 export default {
-  name: "PinjamanPage",
+  name: "PengeluaranPage",
   data() {
     return {
       columns,

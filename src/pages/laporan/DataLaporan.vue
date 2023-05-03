@@ -32,7 +32,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="bukuBank()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -60,7 +62,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="bukuBesar()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -87,7 +91,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="bukuPembantuAdvance()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -116,7 +122,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="bukuPembantuBiaya()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -145,7 +153,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="bukuKasKecil()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -175,7 +185,9 @@
             <q-separator />
 
             <q-card-actions>
-              <q-btn flat class="text-blue-7"> Lihat Laporan </q-btn>
+              <q-btn @click="rekonsiliasiBank()" flat class="text-blue-7">
+                Lihat Laporan
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -195,6 +207,15 @@ export default {
   },
   methods: {
     getLaporanSimpanan() {},
+    bukuBesar() {
+      this.$router.push({ name: "laporanBukuBesar" });
+    },
+    bukuBank() {
+      this.$router.push({ name: "laporanBukuBank" });
+    },
+    bukuPembantuBiaya() {
+      this.$router.push({ name: "laporanBukuPembantuBiaya" });
+    },
   },
 };
 </script>
