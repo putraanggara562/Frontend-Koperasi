@@ -5,7 +5,7 @@
         <q-breadcrumbs separator="---" class="text-blue-8" active-color="black">
           <q-breadcrumbs-el label="Master Laporan" icon="widgets" />
           <q-breadcrumbs-el label="Data Laporan" icon="description" />
-          <q-breadcrumbs-el label="Laporan Buku Besar" icon="payments" />
+          <q-breadcrumbs-el label="Laporan Buku Besar" icon="trending_up" />
         </q-breadcrumbs>
       </q-card>
       <div class="row items-center q-col-gutter-md q-pt-md">

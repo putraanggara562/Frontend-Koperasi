@@ -34,14 +34,34 @@ const routes = [
         component: () => import("pages/laporan/DataLaporan.vue"),
       },
       {
+        path: "/laporan-buku-bank",
+        name: "laporanBukuBank",
+        component: () => import("pages/laporan/BukuBank.vue"),
+      },
+      {
         path: "/laporan-buku-besar",
         name: "laporanBukuBesar",
         component: () => import("pages/laporan/BukuBesar.vue"),
       },
       {
-        path: "/laporan-buku-bank",
-        name: "laporanBukuBank",
-        component: () => import("pages/laporan/BukuBank.vue"),
+        path: "/laporan-buku-pembantu-advance",
+        name: "laporanBukuPembantuAdvance",
+        component: () => import("pages/laporan/BukuPembantuAdvance.vue"),
+      },
+      {
+        path: "/laporan-buku-pembantu-biaya",
+        name: "laporanBukuPembantuBiaya",
+        component: () => import("pages/laporan/BukuPembantuBiaya.vue"),
+      },
+      {
+        path: "/laporan-buku-kas-kecil",
+        name: "laporanBukuKasKecil",
+        component: () => import("pages/laporan/BukuKasKecil.vue"),
+      },
+      {
+        path: "/laporan-rekonsiliasi-bank",
+        name: "laporanRekonsiliasiBank",
+        component: () => import("pages/laporan/RekonsiliasiBank.vue"),
       },
       {
         path: "/profil",
@@ -56,9 +76,24 @@ const routes = [
     component: () => import("layouts/KopiLayout.vue"),
     children: [
       {
-        path: "/Dashboard",
+        path: "/dashboard",
         name: "dashboardKopi",
         component: () => import("pages/UsahaKopi/Dashboard.vue"),
+      },
+      {
+        path: "/penjualan",
+        name: "penjualan",
+        component: () => import("pages/UsahaKopi/Penjualan.vue"),
+      },
+      {
+        path: "/pembelian",
+        name: "pembelian",
+        component: () => import("pages/UsahaKopi/Pembelian.vue"),
+      },
+      {
+        path: "/pengeluaran-kopi",
+        name: "pengeluaranKopi",
+        component: () => import("pages/UsahaKopi/Pengeluaran.vue"),
       },
     ],
   },

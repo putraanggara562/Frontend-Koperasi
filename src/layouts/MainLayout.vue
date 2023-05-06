@@ -15,7 +15,7 @@
         <q-btn-dropdown
           flat
           size="md"
-          icon="account_circle"
+          icon="manage_accounts"
           color="white"
           label="Administrator"
         >
@@ -171,27 +171,6 @@
           </q-item-section>
           <q-item-section> Data Laporan </q-item-section>
         </q-item>
-
-        <!-- Menu Dropdown Upcoming -->
-        <!-- <q-expansion-item
-          expand-separator
-          icon="description"
-          label="Data Laporan"
-          :content-inset-level="1"
-        >
-          <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
-            <q-item-section avatar>
-              <q-icon name="payments" />
-            </q-item-section>
-            <q-item-section> Laporan Penarikan </q-item-section>
-          </q-item>
-          <q-item clickable :to="{ name: 'laporanPinjaman' }" v-ripple>
-            <q-item-section avatar>
-              <q-icon name="price_change" />
-            </q-item-section>
-            <q-item-section> Laporan Pinjaman </q-item-section>
-          </q-item>
-        </q-expansion-item> -->
 
         <q-item>
           <q-item-section class="text-blue-8 text-weight-bold">

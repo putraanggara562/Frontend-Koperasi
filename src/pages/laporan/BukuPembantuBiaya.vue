@@ -6,7 +6,7 @@
           <q-breadcrumbs-el label="Master Laporan" icon="widgets" />
           <q-breadcrumbs-el label="Data Laporan" icon="description" />
           <q-breadcrumbs-el
-            label="Laporan Buku Pembantu Advance"
+            label="Laporan Buku Pembantu Biaya"
             icon="trending_up"
           />
         </q-breadcrumbs>
@@ -22,10 +22,8 @@
           >
             <template v-slot:top>
               <div class="col">
-                <div class="text-weight-bold">
-                  LAPORAN BUKU PEMBANTU ADVANCE
-                </div>
-                <div>Daftar laporan buku pembantu advance pada saat ini</div>
+                <div class="text-weight-bold">LAPORAN BUKU PEMBANTU BIAYA</div>
+                <div>Daftar laporan buku pembantu biaya pada saat ini</div>
               </div>
 
               <q-space />
@@ -72,6 +70,9 @@
                 </q-td>
                 <q-td key="rincian" :props="props">
                   {{ props.row.rincian }}
+                </q-td>
+                <q-td key="jumlah" :props="props">
+                  Rp. {{ props.row.jumlah }}
                 </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
@@ -125,6 +126,12 @@ const columns = [
     align: "left",
   },
   {
+    name: "jumlah",
+    label: "Jumlah",
+    field: "jumlah",
+    align: "left",
+  },
+  {
     name: "action",
     label: "Action",
     field: "action",
@@ -137,15 +144,17 @@ const rows = [
     created_at: "01 Juli 2023",
     deskripsi: "dibayar",
     rincian: "sisa pembayaran",
+    jumlah: "50.000",
   },
   {
     created_at: "02 Juli 2023",
     deskripsi: "dibayar",
     rincian: "sisa pembayaran",
+    jumlah: "100.000",
   },
 ];
 export default {
-  name: "BukuPembantuAdvancePage",
+  name: "BukuPembantuBiayaPage",
   data() {
     return {
       columns,
@@ -159,15 +168,15 @@ export default {
   },
   methods: {
     exportTable() {
-      const content = ["Tanggal; COA; Akun; Deskripsi; Debet; Kredit"]
+      const content = ["Tanggal; Deskripsi; Rincian; Jumlah"]
         .concat(
           this.rows.map((row) => {
-            return `${row.created_at};${row.coa};${row.akun};${row.deskripsi};${row.debet};${row.kredit}`;
+            return `${row.created_at};${row.deskripsi};${row.rincian};${row.jumlah}`;
           })
         )
         .join("\r\n");
       const status = exportFile(
-        "laporan-buku-pembantu-advance.csv",
+        "laporan-buku-pembantu-biaya.csv",
         content,
         "text/csv"
       );

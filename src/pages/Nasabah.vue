@@ -68,9 +68,6 @@
             </template>
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="no_anggota" :props="props">
-                  {{ props.row.no_anggota }}
-                </q-td>
                 <q-td key="nama" :props="props">
                   {{ props.row.nama }}
                 </q-td>
@@ -86,8 +83,8 @@
                 <q-td key="status" :props="props">
                   {{ props.row.status }}
                 </q-td>
-                <q-td key="JumlahPinjaman" :props="props">
-                  {{ props.row.JumlahPinjaman }}
+                <q-td key="jumlahPinjaman" :props="props">
+                  {{ props.row.jumlahPinjaman }}
                 </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
@@ -103,7 +100,7 @@
                       flat
                       color="red"
                       size="md"
-                      @click="hapusBarang(props.row._id)"
+                      @click="hapusData(props.row._id)"
                       class="q-px-xs"
                       icon="delete"
                     ></q-btn>
@@ -152,51 +149,42 @@
 
         <q-form @submit="onSubmit()" @reset="onReset()">
           <q-card-section horizontal>
-            <q-card-section class="q-gutter-xs fit">
-              <q-input
-                dense
-                v-model="alamat"
-                outlined
-                label="Alamat"
-                hint="Alamat"
-              />
-              <q-input dense v-model="nama" outlined label="Nama" hint="Nama" />
+            <q-card-section class="q-gutter-md fit">
+              <q-input dense v-model="nama" outlined label="Nama" />
               <q-input
                 dense
                 type="email"
                 v-model="email"
                 outlined
                 label="Email"
-                hint="Email"
               />
+              <q-input dense v-model="alamat" outlined label="Alamat" />
             </q-card-section>
 
             <q-separator vertical />
 
-            <q-card-section class="q-gutter-xs fit">
-              <q-input
+            <q-card-section class="q-gutter-md fit">
+              <q-select
                 dense
                 v-model="kelamin"
+                :options="optionKelamin"
                 outlined
                 label="Jenis Kelamin"
-                hint="Jenis Kelamin"
               />
               <q-select
                 dense
                 outlined
-                key="value"
                 v-model="status"
                 option-label="label"
                 :options="optionStatus"
                 label="Status"
-                :rules="[(val) => val !== null || 'Status tidak boleh kosong']"
               />
               <q-input
+                type="number"
                 dense
                 v-model="jumlahPinjaman"
                 outlined
                 label="Jumlah Pinjaman"
-                hint="Jumlah Pinjaman"
               />
             </q-card-section>
           </q-card-section>
@@ -217,12 +205,6 @@
 import { exportFile } from "quasar";
 
 const columns = [
-  {
-    name: "no_anggota",
-    label: "No Anggota",
-    field: "no_anggota",
-    align: "left",
-  },
   {
     name: "nama",
     label: "Nama",
@@ -254,9 +236,9 @@ const columns = [
     align: "left",
   },
   {
-    name: "JumlahPinjaman",
+    name: "jumlahPinjaman",
     label: "Jumlah Pinjaman",
-    field: "JumlahPinjaman",
+    field: "jumlahPinjaman",
     align: "left",
   },
   {
@@ -264,30 +246,10 @@ const columns = [
     label: "Action",
     field: "action",
     align: "center",
-    tarik: "25.000",
   },
 ];
 
-const rows = [
-  {
-    no_anggota: "001",
-    nama: "01 Juli 2023",
-    email: "Gunawan",
-    alamat: "alamat",
-    kelamin: "kelamin",
-    status: "status",
-    JumlahPinjaman: "Rp.0",
-  },
-  {
-    no_anggota: "002",
-    nama: "02 Juli 2023",
-    email: "Andre",
-    alamat: "alamat",
-    kelamin: "kelamin",
-    status: "status",
-    JumlahPinjaman: "Rp.0",
-  },
-];
+const rows = [];
 export default {
   name: "NasabahPage",
   data() {
@@ -300,35 +262,125 @@ export default {
       },
       visibles: false,
       dialog: false,
-      no_anggota: null,
       nama: null,
       email: null,
       alamat: null,
       kelamin: null,
+      optionKelamin: ["Laki-Laki", "Perempuan"],
       status: null,
-      optionStatus: [
-        {
-          label: "Aktif",
-          value: 0,
-        },
-        {
-          label: "Tidak Aktif",
-          value: 3,
-        },
-      ],
+      optionStatus: ["Aktif", "Tidak Aktif"],
+      jumlahPinjaman: null,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
-    openDialog() {
+    openDialog(editMode, data) {
+      this.editMode = editMode;
+      if (editMode) {
+        this.nama = data.nama;
+        this.email = data.email;
+        this.alamat = data.alamat;
+        this.kelamin = data.kelamin;
+        this.status = data.status;
+        this.jumlahPinjaman = data.jumlahPinjaman;
+        this.idActive = data._id;
+      } else {
+        this.nama = null;
+        this.email = null;
+        this.alamat = null;
+        this.kelamin = null;
+        this.status = null;
+        this.jumlahPinjaman = null;
+        this.idActive = null;
+      }
       this.dialog = true;
     },
-    onReset() {
-      this.no_anggota = null;
+    resetDialog() {
+      this.editMode = false;
+      this.dialog = false;
+    },
+    resetForm() {
       this.nama = null;
       this.email = null;
       this.alamat = null;
       this.kelamin = null;
       this.status = null;
+      this.jumlahPinjaman = null;
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.$axios
+          .put(`nasabah/edit/${this.idActive}`, {
+            nama: this.nama,
+            email: this.email,
+            alamat: this.alamat,
+            kelamin: this.kelamin,
+            status: this.status,
+            jumlahPinjaman: this.jumlahPinjaman,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+            this.resetDialog();
+            this.resetForm();
+          });
+      } else {
+        this.$axios
+          .post("nasabah/add", {
+            nama: this.nama,
+            email: this.email,
+            alamat: this.alamat,
+            kelamin: this.kelamin,
+            status: this.status,
+            jumlahPinjaman: this.jumlahPinjaman,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.dialog = false;
+            this.getData();
+          });
+      }
+    },
+    getData() {
+      this.$axios.get("nasabah/getAll").then((res) => {
+        console.log(res);
+        if (res.data.sukses) {
+          this.rows = res.data.data;
+        }
+      });
+    },
+    hapusData(_id) {
+      this.$q
+        .dialog({
+          title: "Konfirmasi",
+          message: "Apakah anda yakin ingin menghapus data ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.$axios.delete(`nasabah/delete/${_id}`).then((res) => {
+            if (res.data.sukses) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+          });
+        });
+    },
+    onReset() {
+      this.nama = null;
+      this.email = null;
+      this.alamat = null;
+      this.kelamin = null;
+      this.status = null;
+      this.jumlahPinjaman = null;
     },
     exportTable() {
       const content = ["No Anggota; Nama; Email; Alamat; Kelamin; Status"]

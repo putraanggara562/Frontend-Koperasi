@@ -67,8 +67,8 @@
             </template>
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="created_at" :props="props">
-                  {{ props.row.created_at }}
+                <q-td key="tanggal" :props="props">
+                  {{ props.row.tanggal }}
                 </q-td>
                 <q-td key="namaPeminjam" :props="props">
                   {{ props.row.namaPeminjam }}
@@ -99,7 +99,7 @@
                       flat
                       color="red"
                       size="md"
-                      @click="hapusBarang(props.row._id)"
+                      @click="hapusData(props.row._id)"
                       class="q-px-xs"
                       icon="delete"
                     ></q-btn>
@@ -150,53 +150,46 @@
 
         <q-form @submit="onSubmit()" @reset="onReset()">
           <q-card-section horizontal>
-            <q-card-section class="q-gutter-xs fit">
+            <q-card-section class="q-gutter-md fit">
+              <q-input
+                dense
+                type="date"
+                v-model="tanggal"
+                outlined
+                label="Tanggal"
+              />
               <q-input
                 dense
                 v-model="namaPeminjam"
                 outlined
                 label="Nama Peminjam"
-                hint="Nama Peminjam"
               />
-              <q-input
-                dense
-                v-model="keterangan"
-                outlined
-                label="Keterangan"
-                hint="Keterangan"
-              />
-              <q-input
-                dense
-                v-model="jumlah"
-                outlined
-                label="Jumlah"
-                hint="Jumlah"
-              />
+              <q-input dense v-model="keterangan" outlined label="Keterangan" />
             </q-card-section>
 
             <q-separator vertical />
 
-            <q-card-section class="q-gutter-xs fit">
+            <q-card-section class="q-gutter-md fit">
               <q-input
                 dense
+                type="number"
+                v-model="jumlah"
+                outlined
+                label="Jumlah"
+              />
+              <q-input
+                dense
+                type="number"
                 v-model="bunga"
                 outlined
                 label="Bunga (%)"
-                hint="Bunga (%)"
               />
               <q-input
                 dense
+                type="number"
                 v-model="total"
                 outlined
                 label="Total"
-                hint="Total"
-              />
-              <q-input
-                dense
-                v-model="created_at"
-                outlined
-                label="Tangal"
-                hint="Tangal"
               />
             </q-card-section>
           </q-card-section>
@@ -216,9 +209,9 @@
 <script>
 const columns = [
   {
-    name: "created_at",
+    name: "tanggal",
     label: "Tanggal",
-    field: "created_at",
+    field: "tanggal",
     align: "left",
   },
   {
@@ -259,24 +252,7 @@ const columns = [
   },
 ];
 
-const rows = [
-  {
-    created_at: "01 Juli 2023",
-    namaPeminjam: "Gunawan",
-    keterangan: "pinjaman awal bulan",
-    jumlah: "50.000",
-    bunga: "5%",
-    total: "55.000",
-  },
-  {
-    created_at: "02 Juli 2023",
-    namaPeminjam: "Andre",
-    keterangan: "pinjaman akhir bulan",
-    jumlah: "100.000",
-    bunga: "5%",
-    total: "110.000",
-  },
-];
+const rows = [];
 export default {
   name: "PeminjamanPage",
   data() {
@@ -289,28 +265,122 @@ export default {
       },
       visibles: false,
       dialog: false,
-      kode_transaksi: null,
-      nasabah: null,
-      dipinjam: null,
-      dibayar: null,
-      sisa_pembayaran: null,
-      durasi_perbulan: null,
-      created_at: null,
+      tanggal: null,
+      namaPeminjam: null,
+      keterangan: null,
+      jumlah: null,
+      bunga: null,
+      total: null,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
-    openDialog() {
+    openDialog(editMode, data) {
+      this.editMode = editMode;
+      if (editMode) {
+        this.tanggal = data.tanggal;
+        this.namaPeminjam = data.namaPeminjam;
+        this.keterangan = data.keterangan;
+        this.jumlah = data.jumlah;
+        this.bunga = data.bunga;
+        this.total = data.total;
+        this.idActive = data._id;
+      } else {
+        this.tanggal = null;
+        this.namaPeminjam = null;
+        this.keterangan = null;
+        this.jumlah = null;
+        this.bunga = null;
+        this.total = null;
+        this.idActive = null;
+      }
       this.dialog = true;
     },
+    resetDialog() {
+      this.editMode = false;
+      this.dialog = false;
+    },
+    resetForm() {
+      this.tanggal = null;
+      this.namaPeminjam = null;
+      this.keterangan = null;
+      this.jumlah = null;
+      this.bunga = null;
+      this.total = null;
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.$axios
+          .put(`peminjaman/edit/${this.idActive}`, {
+            tanggal: this.tanggal,
+            namaPeminjam: this.namaPeminjam,
+            keterangan: this.keterangan,
+            jumlah: this.jumlah,
+            bunga: this.bunga,
+            total: this.total,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+            this.resetDialog();
+            this.resetForm();
+          });
+      } else {
+        this.$axios
+          .post("peminjaman/add", {
+            tanggal: this.tanggal,
+            namaPeminjam: this.namaPeminjam,
+            keterangan: this.keterangan,
+            jumlah: this.jumlah,
+            bunga: this.bunga,
+            total: this.total,
+          })
+          .then((res) => {
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.dialog = false;
+            this.getData();
+          });
+      }
+    },
+    getData() {
+      this.$axios.get("peminjaman/getAll").then((res) => {
+        console.log(res);
+        if (res.data.sukses) {
+          this.rows = res.data.data;
+        }
+      });
+    },
+    hapusData(_id) {
+      this.$q
+        .dialog({
+          title: "Konfirmasi",
+          message: "Apakah anda yakin ingin menghapus data ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.$axios.delete(`peminjaman/delete/${_id}`).then((res) => {
+            if (res.data.sukses) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+          });
+        });
+    },
     onReset() {
-      this.kode_transaksi = null;
-      this.nasabah = null;
-      this.dipinjam = null;
-      this.dibayar = null;
-      this.sisa_pembayaran = null;
-      this.durasi_perbulan = null;
-      this.created_at = null;
-      this.pengelola = null;
+      this.tanggal = null;
+      this.namaPeminjam = null;
+      this.keterangan = null;
+      this.jumlah = null;
+      this.bunga = null;
+      this.total = null;
     },
   },
 };

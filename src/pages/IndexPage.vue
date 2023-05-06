@@ -28,8 +28,8 @@
                 </q-item-label>
               </q-item-section>
               <q-item-section>
-                <q-item-label class="text-white"
-                  ><strong>Rp. {{ saldo }}</strong>
+                <q-item-label class="text-white">
+                  <strong>Rp. {{ saldo }}</strong>
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -195,15 +195,19 @@
 
 <script>
 import { defineComponent } from "vue";
+import Vue3autocounter from "vue3-autocounter";
 
 export default defineComponent({
   name: "IndexPage",
-  components: {},
+  components: {
+    // "vue3-autocounter": Vue3autocounter,
+  },
   setup() {
     return {
-      saldo: "200.000",
+      saldo: "201.000",
       debit: "100.000",
       kredit: "50.000",
+      ektpYa: null,
       sales_options: {
         tooltip: {
           trigger: "axis",
@@ -249,7 +253,7 @@ export default defineComponent({
           {
             name: "Saldo",
             type: "bar",
-            data: [40, 45, 27, 50, 32, 50, 70, 30, 30, 40, 67, 29],
+            data: [100, 10, 20, 120, 117, 70, 110, 90, 50, 90, 20, 50],
             color: "#389CEC",
           },
           {
@@ -329,6 +333,11 @@ export default defineComponent({
   mounted() {
     this.init();
   },
+  created() {
+    this.getPenduduk();
+    this.getCountEktp();
+    this.getCountPenduduk();
+  },
   methods: {
     init() {
       let salesChart = document.getElementById("saleschart");
@@ -348,6 +357,53 @@ export default defineComponent({
       if (this.pie_chart) {
         this.pie_chart.resize();
       }
+    },
+    getPenduduk() {
+      this.$axios
+        .get("/penduduk/")
+        .finally()
+        .then((res) => {
+          if (res.data.status) {
+            this.rows = res.data.data;
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    getCountEktp() {
+      this.$axios
+        .get(`penduduk/getCount_akteKtp/ektp`)
+        .finally()
+        .then((res) => {
+          if (res.data.status) {
+            this.ektpYa = res.data.data[0].count;
+            console.log(this.ektpYa);
+            this.ektpTidak = res.data.data[1].count;
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    getCountPenduduk() {
+      this.$axios
+        .get("penduduk/getCountPenduduk")
+        .finally()
+        .then((res) => {
+          if (res.data.status) {
+            const data = res.data.data;
+            var pria = 0;
+            var wanita = 0;
+            data.map(function (datas) {
+              if (datas._id === "Laki-Laki") {
+                pria = datas.myCount;
+              } else {
+                wanita = datas.myCount;
+              }
+            });
+            this.penduduk_pria = Number(pria);
+            this.penduduk_wanita = Number(wanita);
+            this.penduduk = pria + wanita;
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 });

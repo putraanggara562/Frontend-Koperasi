@@ -1,10 +1,7 @@
 <template>
-  <q-page class="q-pr-md q-pl-md q-pa-md">
-    <div
-      v-if="!visible"
-      class="col col-lg-12 col-md-6 col-sm-8 col-xs-10 q-pt-md"
-    >
-      <q-card class="my-card q-pa-md">
+  <q-page>
+    <div class="q-pa-md">
+      <q-card class="q-pa-md">
         <q-breadcrumbs
           separator="---"
           style="color: #3a5a40"
@@ -14,172 +11,79 @@
         </q-breadcrumbs>
       </q-card>
 
-      <div class="row q-mt-lg">
-        <transition
-          appear
-          enter-active-class="animated bounceInLeft"
-          leave-active-class="animated bounceOutRight"
-        >
-          <div class="row q-gutter-sm fit">
-            <q-card
-              class="my-card col-md-3 col-sm col-lg-2 bg-white"
-              flat
-              bordered
-            >
-              <q-card-section horizontal>
-                <q-card-section class="q-pt-xs">
-                  <div class="text-h6" style="font-size: 14px; color: #344e41">
-                    Data Produk
-                  </div>
-                  <div class="text-caption text-grey" style="font-size: 11px">
-                    Berisi semua data produk gapari.
-                  </div>
-                  <div class="text-h6" style="color: #344e41">
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="2021"
-                      :duration="3"
-                      :autoinit="true"
-                      @finished="alert(`Counting finished!`)"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-section class="col-4 flex flex-center">
-                  <q-icon
-                    name="category"
-                    style="font-size: 5.4em; color: #588157"
-                  />
-                </q-card-section>
+      <div class="row items-center q-col-gutter-md q-pt-md">
+        <div class="col-12 col-md-4 col-sm-6 col-xs-12 col-lg-4">
+          <q-card class="col-md-3 col-sm col-lg-2" flat bordered>
+            <q-card-section horizontal>
+              <q-card-section class="q-pt-xs">
+                <div class="text-h6" style="font-size: 14px; color: #344e41">
+                  Penjualan
+                </div>
+                <div class="text-caption text-grey" style="font-size: 11px">
+                  Berisi semua data penjualan usaha kopi.
+                </div>
+                <div class="text-h6" style="color: #344e41">Rp. 300.000</div>
               </q-card-section>
-            </q-card>
 
-            <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="q-pt-xs">
-                  <div class="text-h6" style="font-size: 14px; color: #344e41">
-                    Penjualan
-                  </div>
-                  <div class="text-caption text-grey" style="font-size: 11px">
-                    Berisi semua data penjualan gapari.
-                  </div>
-                  <div class="text-h6" style="color: #344e41">
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="1231"
-                      :duration="3"
-                      :autoinit="true"
-                      @finished="alert(`Counting finished!`)"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-section class="col-4 flex flex-center">
-                  <q-icon
-                    name="storefront"
-                    style="font-size: 5.4em; color: #588157"
-                  />
-                </q-card-section>
+              <q-card-section class="col-4 flex flex-center">
+                <q-icon
+                  name="storefront"
+                  style="font-size: 5.4em; color: #588157"
+                />
               </q-card-section>
-            </q-card>
+            </q-card-section>
+          </q-card>
+        </div>
 
-            <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="q-pt-xs">
-                  <div class="text-h6" style="font-size: 14px; color: #344e41">
-                    Pembelian
-                  </div>
-                  <div class="text-caption text-grey" style="font-size: 11px">
-                    Berisi semua data pembelian gapari.
-                  </div>
-                  <div class="text-h6" style="color: #344e41">
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="945"
-                      :duration="3"
-                      :autoinit="true"
-                      @finished="alert(`Counting finished!`)"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-section class="col-4 flex flex-center">
-                  <q-icon
-                    name="shopping_bag"
-                    style="font-size: 5.4em; color: #588157"
-                  />
-                </q-card-section>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <q-card class="col-md-3 col-sm col-lg-2" flat bordered>
+            <q-card-section horizontal>
+              <q-card-section class="q-pt-xs">
+                <div class="text-h6" style="font-size: 14px; color: #344e41">
+                  Pembelian
+                </div>
+                <div class="text-caption text-grey" style="font-size: 11px">
+                  Berisi semua data pembelian usaha kopi.
+                </div>
+                <div class="text-h6" style="color: #344e41">Rp. 400.000</div>
               </q-card-section>
-            </q-card>
 
-            <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="q-pt-xs">
-                  <div class="text-h6" style="font-size: 14px; color: #344e41">
-                    Pengeluaran
-                  </div>
-                  <div class="text-caption text-grey" style="font-size: 11px">
-                    Berisi semua data pengeluaran gapari.
-                  </div>
-                  <div class="text-h6" style="color: #344e41">
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="1022"
-                      :duration="3"
-                      :autoinit="true"
-                      @finished="alert(`Counting finished!`)"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-section class="col-4 flex flex-center">
-                  <q-icon
-                    name="outbox"
-                    style="font-size: 5.4em; color: #588157"
-                  />
-                </q-card-section>
+              <q-card-section class="col-4 flex flex-center">
+                <q-icon
+                  name="shopping_bag"
+                  style="font-size: 5.4em; color: #588157"
+                />
               </q-card-section>
-            </q-card>
+            </q-card-section>
+          </q-card>
+        </div>
 
-            <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
-              <q-card-section horizontal>
-                <q-card-section class="q-pt-xs">
-                  <div class="text-h6" style="font-size: 14px; color: #344e41">
-                    Barang Return
-                  </div>
-                  <div class="text-caption text-grey" style="font-size: 11px">
-                    Berisi semua data barang retur gapari.
-                  </div>
-                  <div class="text-h6" style="color: #344e41">
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="345"
-                      :duration="3"
-                      :autoinit="true"
-                      @finished="alert(`Counting finished!`)"
-                    />
-                  </div>
-                </q-card-section>
-
-                <q-card-section class="col-4 flex flex-center">
-                  <q-icon
-                    name="cached"
-                    style="font-size: 5.4em; color: #588157"
-                  />
-                </q-card-section>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <q-card class="my-card col-md-3 col-sm col-lg-2" flat bordered>
+            <q-card-section horizontal>
+              <q-card-section class="q-pt-xs">
+                <div class="text-h6" style="font-size: 14px; color: #344e41">
+                  Pengeluaran
+                </div>
+                <div class="text-caption text-grey" style="font-size: 11px">
+                  Berisi semua data pengeluaran usaha kopi.
+                </div>
+                <div class="text-h6" style="color: #344e41">Rp. 200.000</div>
               </q-card-section>
-            </q-card>
-          </div>
-        </transition>
+
+              <q-card-section class="col-4 flex flex-center">
+                <q-icon
+                  name="price_change"
+                  style="font-size: 5.4em; color: #588157"
+                />
+              </q-card-section>
+            </q-card-section>
+          </q-card>
+        </div>
       </div>
       <div class="row items-center q-col-gutter-md q-py-md">
         <div class="col-md-12 col-xs-12">
-          <q-card class="q-mt-sm">
+          <q-card flat bordered class="q-mt-sm">
             <q-card-section class="text-h6 q-pb-none">
               <q-item>
                 <q-item-section avatar class="">
@@ -289,7 +193,7 @@ import Vue3autocounter from "vue3-autocounter";
 export default {
   name: "PageIndex",
   components: {
-    "vue3-autocounter": Vue3autocounter,
+    // "vue3-autocounter": Vue3autocounter,
   },
   data() {
     return {

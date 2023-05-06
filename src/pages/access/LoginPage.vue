@@ -4,7 +4,6 @@
       <q-page class="row items-center justify-center">
         <q-card
           v-bind:style="$q.screen.lt.sm ? { width: '100%' } : { width: '75%' }"
-          class="bg-blue"
         >
           <div class="row q-col-gutter-md items-center">
             <div
@@ -36,12 +35,13 @@
                 >
                   <q-input
                     dense
-                    v-model="form.email"
-                    label="Email"
+                    v-model="username"
+                    label="Username"
                     lazy-rules
                     :rules="[
                       (val) =>
-                        (val && val.length > 0) || 'Lengkapin data email nya',
+                        (val && val.length > 0) ||
+                        'Lengkapin data username nya',
                     ]"
                   >
                     <template v-slot:prepend>
@@ -52,7 +52,7 @@
                   <q-input
                     dense
                     label="Password"
-                    v-model="form.password"
+                    v-model="password"
                     :type="isPwd ? 'password' : 'text'"
                     :rules="[
                       (val) =>
@@ -111,17 +111,24 @@ export default {
       animationSpeed: 2,
       isPwd: true,
       visible: false,
-      form: {
-        email: "admin@gmail.com",
-        password: 1234,
-        role: null,
-      },
+      username: null,
+      password: null,
     };
   },
   methods: {
     onSubmit() {
-      this.$router.push({ name: "accesPengguna" });
-      this.$successNotif("selamat berhasil login", "positive");
+      this.$axios
+        .post("user/login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then((res) => {
+          console.log(res);
+          if ((res.data.status = true)) {
+            this.$router.push({ name: "accesPengguna" });
+            this.$successNotif("selamat berhasil login", "positive");
+          }
+        });
     },
     onReset() {
       this.form.email = null;

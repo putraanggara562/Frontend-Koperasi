@@ -10,7 +10,7 @@
       <div class="row items-center q-col-gutter-md q-pt-md">
         <div class="col-md-12 col-xs-12">
           <q-table
-            :rows="rows"
+            :rows="data"
             :columns="columns"
             row-key="name"
             :filter="filter"
@@ -26,21 +26,11 @@
 
               <q-btn
                 @click="openDialog(false, null)"
-                flat
                 icon="library_add"
+                label="tambah Pengeluaran"
                 text-color="blue-7"
+                outline
               >
-                <q-tooltip> Tambah Data </q-tooltip>
-              </q-btn>
-
-              <q-btn
-                flat
-                unelevated
-                icon="document_scanner"
-                text-color="blue-7"
-                @click="exportToCSV()"
-              >
-                <q-tooltip> Export Data </q-tooltip>
               </q-btn>
 
               <q-btn
@@ -67,13 +57,19 @@
             </template>
             <template v-slot:body="props">
               <q-tr :props="props">
-                <q-td key="created_at" :props="props">
-                  {{ props.row.created_at }}
+                <q-td key="tanggal" :props="props">
+                  {{
+                    new Date(props.row.tanggal).toLocaleDateString("id", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                  }}
                 </q-td>
                 <q-td key="namaBarangJasa" :props="props">
                   {{ props.row.namaBarangJasa }}
                 </q-td>
-                <q-td key="gambar" :props="props">
+                <!-- <q-td key="gambar" :props="props">
                   <q-item>
                     <q-item-section>
                       <q-avatar square>
@@ -81,7 +77,7 @@
                       </q-avatar>
                     </q-item-section>
                   </q-item>
-                </q-td>
+                </q-td> -->
                 <q-td key="deskripsi" :props="props">
                   {{ props.row.deskripsi }}
                 </q-td>
@@ -108,7 +104,7 @@
                       flat
                       color="red"
                       size="md"
-                      @click="hapusBarang(props.row._id)"
+                      @click="hapusData(props.row._id)"
                       class="q-px-xs"
                       icon="delete"
                     ></q-btn>
@@ -162,8 +158,8 @@
             <q-card-section class="q-gutter-xs fit">
               <q-input
                 dense
-                type="number"
-                v-model="created_at"
+                type="date"
+                v-model="tanggal"
                 outlined
                 label="Tanggal"
                 hint="Tanggal"
@@ -189,6 +185,7 @@
             <q-card-section class="q-gutter-xs fit">
               <q-input
                 dense
+                type="number"
                 v-model="harga"
                 outlined
                 label="Harga"
@@ -196,6 +193,7 @@
               />
               <q-input
                 dense
+                type="number"
                 v-model="jumlah"
                 outlined
                 label="Jumlah"
@@ -203,6 +201,7 @@
               />
               <q-input
                 dense
+                type="number"
                 v-model="total"
                 outlined
                 label="Total"
@@ -226,9 +225,9 @@
 <script>
 const columns = [
   {
-    name: "created_at",
+    name: "tanggal",
     label: "Tanggal",
-    field: "created_at",
+    field: "tanggal",
     align: "left",
   },
   {
@@ -237,12 +236,12 @@ const columns = [
     field: "namaBarangJasa",
     align: "left",
   },
-  {
-    name: "gambar",
-    label: "Gambar",
-    field: "gambar",
-    align: "center",
-  },
+  // {
+  //   name: "gambar",
+  //   label: "Gambar",
+  //   field: "gambar",
+  //   align: "center",
+  // },
   {
     name: "deskripsi",
     label: "Deskripsi",
@@ -275,53 +274,131 @@ const columns = [
   },
 ];
 
-const rows = [
-  {
-    created_at: "01 Juli 2023",
-    namaBarangJasa: "Nama Barang",
-    gambar: require("src/assets/bag.jpg"),
-    deskripsi: "beli barang barang",
-    harga: "50.000",
-    jumlah: "50.000",
-    total: "50.000",
-  },
-  {
-    created_at: "04 Juli 2023",
-    namaBarangJasa: "Nama Jasa",
-    gambar: require("src/assets/laptop.jpg"),
-    deskripsi: "beli barang jasa",
-    harga: "100.000",
-    jumlah: "100.000",
-    total: "100.000",
-  },
-];
+const data = [];
 export default {
   name: "PengeluaranPage",
   data() {
     return {
       columns,
-      rows,
+      data,
       filter: "",
       pagination: {
         rowsPerPage: 10,
       },
       visibles: false,
+      editMode: false,
       dialog: false,
-      created_at: null,
+      tanggal: null,
       namaBarangJasa: null,
-      gambar: null,
       deskripsi: null,
       harga: null,
       jumlah: null,
       total: null,
+      idActive: null,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
-    openDialog() {
+    openDialog(editMode, data) {
+      this.editMode = editMode;
+      if (editMode) {
+        this.tanggal = data.tanggal;
+        this.namaBarangJasa = data.namaBarangJasa;
+        this.deskripsi = data.deskripsi;
+        this.harga = data.harga;
+        this.jumlah = data.jumlah;
+        this.total = data.total;
+        this.idActive = data._id;
+      } else {
+        this.tanggal = null;
+        this.namaBarangjasa = null;
+        this.deskripsi = null;
+        this.harga = null;
+        this.jumlah = null;
+        this.total = null;
+        this.idActive = null;
+      }
       this.dialog = true;
     },
+    resetDialog() {
+      this.editMode = false;
+      this.dialog = false;
+    },
+    resetForm() {
+      this.tanggal = null;
+      this.namaBarangjasa = null;
+      this.deskripsi = null;
+      this.harga = null;
+      this.jumlah = null;
+      this.total = null;
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.$axios
+          .put(`pengeluaran/edit/${this.idActive}`, {
+            tanggal: this.tanggal,
+            namaBarangJasa: this.namaBarangJasa,
+            deskripsi: this.deskripsi,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+            this.resetDialog();
+            this.resetForm();
+          });
+      } else {
+        this.$axios
+          .post("pengeluaran/add", {
+            tanggal: this.tanggal,
+            namaBarangJasa: this.namaBarangJasa,
+            deskripsi: this.deskripsi,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+          })
+          .then((res) => {
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.dialog = false;
+            this.getData();
+          });
+      }
+    },
+    getData() {
+      this.$axios.get("pengeluaran/getAll").then((res) => {
+        if (res.data.sukses) {
+          this.data = res.data.data;
+        }
+      });
+    },
+    hapusData(_id) {
+      this.$q
+        .dialog({
+          title: "Konfirmasi",
+          message: "Apakah anda yakin ingin menghapus data ini?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.$axios.delete(`pengeluaran/delete/${_id}`).then((res) => {
+            if (res.data.sukses) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+          });
+        });
+    },
     onReset() {
-      this.created_at = null;
+      this.tanggal = null;
       this.namaBarangJasa = null;
       this.gambar = null;
       this.deskripsi = null;

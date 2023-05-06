@@ -5,10 +5,7 @@
         <q-breadcrumbs separator="---" class="text-blue-8" active-color="black">
           <q-breadcrumbs-el label="Master Laporan" icon="widgets" />
           <q-breadcrumbs-el label="Data Laporan" icon="description" />
-          <q-breadcrumbs-el
-            label="Laporan Buku Pembantu Advance"
-            icon="trending_up"
-          />
+          <q-breadcrumbs-el label="Rekonsiliasi Bank" icon="trending_up" />
         </q-breadcrumbs>
       </q-card>
       <div class="row items-center q-col-gutter-md q-pt-md">
@@ -22,10 +19,8 @@
           >
             <template v-slot:top>
               <div class="col">
-                <div class="text-weight-bold">
-                  LAPORAN BUKU PEMBANTU ADVANCE
-                </div>
-                <div>Daftar laporan buku pembantu advance pada saat ini</div>
+                <div class="text-weight-bold">Rekonsiliasi Bank</div>
+                <div>Daftar laporan rekonsiliasi bank pada saat ini</div>
               </div>
 
               <q-space />
@@ -67,11 +62,20 @@
                 <q-td key="created_at" :props="props">
                   {{ props.row.created_at }}
                 </q-td>
+                <q-td key="referensiVoucher" :props="props">
+                  {{ props.row.referensiVoucher }}
+                </q-td>
                 <q-td key="deskripsi" :props="props">
                   {{ props.row.deskripsi }}
                 </q-td>
-                <q-td key="rincian" :props="props">
-                  {{ props.row.rincian }}
+                <q-td key="debet" :props="props">
+                  {{ props.row.debet }}
+                </q-td>
+                <q-td key="kredit" :props="props">
+                  {{ props.row.kredit }}
+                </q-td>
+                <q-td key="saldo" :props="props">
+                  {{ props.row.saldo }}
                 </q-td>
                 <q-td key="action" :props="props">
                   <div class="justify-center q-gutter-x-xs">
@@ -113,15 +117,33 @@ const columns = [
     align: "left",
   },
   {
+    name: "referensiVoucher",
+    label: "Referensi Voucher",
+    field: "referensiVoucher",
+    align: "left",
+  },
+  {
     name: "deskripsi",
     label: "Deskripsi",
     field: "deskripsi",
     align: "left",
   },
   {
-    name: "rincian",
-    label: "Rincian",
-    field: "rincian",
+    name: "debet",
+    label: "Debet",
+    field: "debet",
+    align: "left",
+  },
+  {
+    name: "kredit",
+    label: "Kredit",
+    field: "kredit",
+    align: "left",
+  },
+  {
+    name: "saldo",
+    label: "Saldo",
+    field: "saldo",
     align: "left",
   },
   {
@@ -135,17 +157,23 @@ const columns = [
 const rows = [
   {
     created_at: "01 Juli 2023",
+    referensiVoucher: "Reverensi Voucher",
     deskripsi: "dibayar",
-    rincian: "sisa pembayaran",
+    debet: "50.000",
+    kredit: "50.000",
+    saldo: "50.000",
   },
   {
     created_at: "02 Juli 2023",
+    referensiVoucher: "Reverensi Voucher",
     deskripsi: "dibayar",
-    rincian: "sisa pembayaran",
+    debet: "50.000",
+    kredit: "50.000",
+    saldo: "50.000",
   },
 ];
 export default {
-  name: "BukuPembantuAdvancePage",
+  name: "RekonsiliasiBankPage",
   data() {
     return {
       columns,
@@ -159,18 +187,16 @@ export default {
   },
   methods: {
     exportTable() {
-      const content = ["Tanggal; COA; Akun; Deskripsi; Debet; Kredit"]
+      const content = [
+        "Tanggal; referensiVoucher; Deskripsi; Debet; Kredit; Saldo",
+      ]
         .concat(
           this.rows.map((row) => {
-            return `${row.created_at};${row.coa};${row.akun};${row.deskripsi};${row.debet};${row.kredit}`;
+            return `${row.created_at};${row.referensiVoucher};${row.deskripsi};${row.debet};${row.kredit};${row.saldo}`;
           })
         )
         .join("\r\n");
-      const status = exportFile(
-        "laporan-buku-pembantu-advance.csv",
-        content,
-        "text/csv"
-      );
+      const status = exportFile("rekonsiliasi-bank.csv", content, "text/csv");
       if (status !== true) {
         this.$q.notify({
           message: "Browser denied file download...",

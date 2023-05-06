@@ -9,28 +9,24 @@
           dense
           icon="menu"
         />
-        <q-toolbar-title style="font-family: customfont" class="text-h5"
-          >GAPARI</q-toolbar-title
-        >
+        <q-space />
         <q-btn-dropdown
           flat
-          label="Administrator"
+          size="md"
           icon="manage_accounts"
-          left
-          stretch
+          color="white"
+          label="Administrator"
         >
           <div class="row no-wrap q-pa-md">
             <div class="column">
-              <div class="text-h6 q-mb-md">Settings</div>
+              <div class="text-h6 q-mb-sm">Settings</div>
               <q-btn
-                outline
                 color="primary"
-                label="Profile"
-                clickable
-                :to="{ name: 'profile' }"
+                outline
+                label="Akses Pengguna"
+                :to="{ name: 'accesPengguna' }"
                 size="sm"
-                icon="manage_accounts"
-                left
+                v-close-popup
               />
             </div>
 
@@ -38,18 +34,21 @@
 
             <div class="column items-center">
               <q-avatar size="72px">
-                <img src="~assets/logo_gapari.png" />
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
               </q-avatar>
 
-              <div class="text-subtitle1 q-mt-md q-mb-xs">Administrator</div>
+              <div class="text-subtitle1 q-mt-md q-mb-xs text-weight-bold">
+                Gunawan
+              </div>
 
               <q-btn
-                color="danger"
+                color="primary"
+                outline
                 label="Logout"
-                flat
+                @click="logout()"
+                push
                 size="sm"
                 v-close-popup
-                @click="confirm = true"
               />
             </div>
           </div>
@@ -87,7 +86,7 @@
         <q-list padding>
           <q-item
             clickable
-            :to="{ name: 'dashboard' }"
+            :to="{ name: 'dashboardKopi' }"
             v-ripple
             style="color: #588157"
           >
@@ -104,19 +103,6 @@
 
           <q-item
             clickable
-            :to="{ name: 'product' }"
-            v-ripple
-            style="color: #588157"
-          >
-            <q-item-section avatar>
-              <q-icon name="category" />
-            </q-item-section>
-
-            <q-item-section> Data Produk </q-item-section>
-          </q-item>
-
-          <q-item
-            clickable
             :to="{ name: 'penjualan' }"
             v-ripple
             style="color: #588157"
@@ -124,109 +110,113 @@
             <q-item-section avatar>
               <q-icon name="storefront" />
             </q-item-section>
-
             <q-item-section> Penjualan </q-item-section>
           </q-item>
 
-          <q-list class="rounded-borders">
-            <q-expansion-item
-              expand-icon-toggle
-              expand-separator
-              icon="extension"
-              label="Data Barang"
-              style="color: #588157"
-            >
-              <q-card>
-                <q-card-section>
-                  <q-item clickable :to="{ name: 'pembelian' }" v-ripple>
-                    <q-item-section avatar>
-                      <q-icon name="shopping_bag" style="color: #588157" />
-                    </q-item-section>
+          <q-item clickable :to="{ name: 'pembelian' }" v-ripple>
+            <q-item-section avatar>
+              <q-icon name="shopping_bag" style="color: #588157" />
+            </q-item-section>
+            <q-item-section style="color: #588157"> Pembelian </q-item-section>
+          </q-item>
 
-                    <q-item-section style="color: #588157">
-                      Pembelian
-                    </q-item-section>
-                  </q-item>
+          <q-item clickable :to="{ name: 'pengeluaranKopi' }" v-ripple>
+            <q-item-section avatar>
+              <q-icon name="outbox" style="color: #588157" />
+            </q-item-section>
+            <q-item-section style="color: #588157">
+              Pengeluaran
+            </q-item-section>
+          </q-item>
 
-                  <q-item clickable :to="{ name: 'pengeluaran' }" v-ripple>
-                    <q-item-section avatar>
-                      <q-icon name="outbox" style="color: #588157" />
-                    </q-item-section>
-
-                    <q-item-section style="color: #588157">
-                      Pengeluaran
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item clickable :to="{ name: 'retur' }" v-ripple>
-                    <q-item-section avatar>
-                      <q-icon name="cached" style="color: #588157" />
-                    </q-item-section>
-
-                    <q-item-section style="color: #588157">
-                      Return
-                    </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-item>
-              <q-item-section> EXTRAS </q-item-section>
-            </q-item>
-
-            <q-item
-              clickable
-              :to="{ name: 'modal' }"
-              v-ripple
-              style="color: #588157"
-            >
+          <q-expansion-item
+            expand-separator
+            icon="extension"
+            label="Data Barang"
+            style="color: #588157"
+            :content-inset-level="1"
+          >
+            <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
               <q-item-section avatar>
                 <q-icon name="payments" />
               </q-item-section>
-
-              <q-item-section> Modal </q-item-section>
+              <q-item-section> Inventaris </q-item-section>
             </q-item>
+            <q-item clickable :to="{ name: 'laporanPinjaman' }" v-ripple>
+              <q-item-section avatar>
+                <q-icon name="price_change" />
+              </q-item-section>
+              <q-item-section> Stok</q-item-section>
+            </q-item>
+          </q-expansion-item>
 
-            <q-expansion-item
-              expand-icon-toggle
-              expand-separator
-              icon="groups"
-              label="Mitra"
-              style="color: #588157"
-            >
-              <q-card>
-                <q-card-section>
-                  <q-item
-                    clickable
-                    v-ripple
-                    :to="{ name: 'customer' }"
-                    style="color: #588157"
-                  >
-                    <q-item-section avatar>
-                      <q-icon
-                        name="sentiment_satisfied_alt"
-                        style="color: #588157"
-                      />
-                    </q-item-section>
+          <q-item>
+            <q-item-section> EXTRAS </q-item-section>
+          </q-item>
 
-                    <q-item-section style="color: #588157">
-                      Customer
-                    </q-item-section>
-                  </q-item>
+          <q-item
+            clickable
+            :to="{ name: 'mitra' }"
+            v-ripple
+            style="color: #588157"
+          >
+            <q-item-section avatar>
+              <q-icon name="payments" />
+            </q-item-section>
 
-                  <q-item clickable v-ripple :to="{ name: 'supplier' }">
-                    <q-item-section avatar>
-                      <q-icon name="local_shipping" style="color: #588157" />
-                    </q-item-section>
+            <q-item-section> Mitra </q-item-section>
+          </q-item>
 
-                    <q-item-section style="color: #588157">
-                      Supplier / Vendor
-                    </q-item-section>
-                  </q-item>
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
-          </q-list>
+          <!-- <q-expansion-item
+            expand-separator
+            icon="groups"
+            label="Mitra"
+            :content-inset-level="1"
+          >
+            <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
+              <q-item-section avatar>
+                <q-icon name="payments" />
+              </q-item-section>
+              <q-item-section> Laporan Penarikan </q-item-section>
+            </q-item>
+            <q-item clickable :to="{ name: 'laporanPinjaman' }" v-ripple>
+              <q-item-section avatar>
+                <q-icon name="price_change" />
+              </q-item-section>
+              <q-item-section> Laporan Pinjaman </q-item-section>
+            </q-item> -->
+          <!-- <q-card>
+              <q-card-section>
+                <q-item
+                  clickable
+                  v-ripple
+                  :to="{ name: 'customer' }"
+                  style="color: #588157"
+                >
+                  <q-item-section avatar>
+                    <q-icon
+                      name="sentiment_satisfied_alt"
+                      style="color: #588157"
+                    />
+                  </q-item-section>
+
+                  <q-item-section style="color: #588157">
+                    Customer
+                  </q-item-section>
+                </q-item>
+
+                <q-item clickable v-ripple :to="{ name: 'supplier' }">
+                  <q-item-section avatar>
+                    <q-icon name="local_shipping" style="color: #588157" />
+                  </q-item-section>
+
+                  <q-item-section style="color: #588157">
+                    Supplier / Vendor
+                  </q-item-section>
+                </q-item>
+              </q-card-section>
+            </q-card> -->
+          <!-- </q-expansion-item> -->
 
           <q-item
             clickable
@@ -265,8 +255,8 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="~assets/logo_gapari.png" />
           </q-avatar>
-          <div claSs="text-weight-bold">Administartor</div>
-          <div>@admin_gapari</div>
+          <div claSs="text-weight-bold">Administrator</div>
+          <div>@Admin_usahkopi</div>
         </div>
       </q-img>
     </q-drawer>
@@ -289,8 +279,8 @@ export default {
   },
   methods: {
     logout() {
-      LocalStorage.remove("user", { path: "/auth" });
-      this.$router.go({ name: "signin" });
+      // LocalStorage.remove("user", { path: "/auth" });
+      this.$router.push({ name: "login" });
     },
   },
 };

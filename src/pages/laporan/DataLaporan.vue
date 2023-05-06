@@ -202,19 +202,24 @@ export default {
   data() {
     return {};
   },
-  created() {
-    this.getLaporanSimpanan();
-  },
   methods: {
-    getLaporanSimpanan() {},
     bukuBesar() {
       this.$router.push({ name: "laporanBukuBesar" });
     },
     bukuBank() {
       this.$router.push({ name: "laporanBukuBank" });
     },
+    bukuPembantuAdvance() {
+      this.$router.push({ name: "laporanBukuPembantuAdvance" });
+    },
     bukuPembantuBiaya() {
       this.$router.push({ name: "laporanBukuPembantuBiaya" });
+    },
+    bukuKasKecil() {
+      this.$router.push({ name: "laporanBukuKasKecil" });
+    },
+    rekonsiliasiBank() {
+      this.$router.push({ name: "laporanRekonsiliasiBank" });
     },
   },
 };
