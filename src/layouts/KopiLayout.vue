@@ -1,12 +1,13 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header style="background-color: #588157">
+    <q-header class="bg-brown-1">
       <q-toolbar>
         <q-btn
-          flat
           @click="leftDrawerOpen = !leftDrawerOpen"
+          flat
           round
           dense
+          class="text-black"
           icon="menu"
         />
         <q-space />
@@ -14,14 +15,14 @@
           flat
           size="md"
           icon="manage_accounts"
-          color="white"
+          color="black"
           label="Administrator"
         >
           <div class="row no-wrap q-pa-md">
             <div class="column">
               <div class="text-h6 q-mb-sm">Settings</div>
               <q-btn
-                color="primary"
+                color="brown"
                 outline
                 label="Akses Pengguna"
                 :to="{ name: 'accesPengguna' }"
@@ -42,11 +43,10 @@
               </div>
 
               <q-btn
-                color="primary"
+                color="brown"
                 outline
                 label="Logout"
                 @click="logout()"
-                push
                 size="sm"
                 v-close-popup
               />
@@ -88,7 +88,7 @@
             clickable
             :to="{ name: 'dashboardKopi' }"
             v-ripple
-            style="color: #588157"
+            active-class="active"
           >
             <q-item-section avatar>
               <q-icon name="inbox" />
@@ -105,7 +105,7 @@
             clickable
             :to="{ name: 'penjualan' }"
             v-ripple
-            style="color: #588157"
+            active-class="active"
           >
             <q-item-section avatar>
               <q-icon name="storefront" />
@@ -113,36 +113,53 @@
             <q-item-section> Penjualan </q-item-section>
           </q-item>
 
-          <q-item clickable :to="{ name: 'pembelian' }" v-ripple>
+          <q-item
+            clickable
+            :to="{ name: 'pembelian' }"
+            v-ripple
+            active-class="active"
+          >
             <q-item-section avatar>
-              <q-icon name="shopping_bag" style="color: #588157" />
+              <q-icon name="shopping_bag" />
             </q-item-section>
-            <q-item-section style="color: #588157"> Pembelian </q-item-section>
+            <q-item-section> Pembelian </q-item-section>
           </q-item>
 
-          <q-item clickable :to="{ name: 'pengeluaranKopi' }" v-ripple>
+          <q-item
+            clickable
+            :to="{ name: 'pengeluaranKopi' }"
+            v-ripple
+            active-class="active"
+          >
             <q-item-section avatar>
-              <q-icon name="outbox" style="color: #588157" />
+              <q-icon name="price_change" />
             </q-item-section>
-            <q-item-section style="color: #588157">
-              Pengeluaran
-            </q-item-section>
+            <q-item-section> Pengeluaran </q-item-section>
           </q-item>
 
           <q-expansion-item
             expand-separator
             icon="extension"
             label="Data Barang"
-            style="color: #588157"
             :content-inset-level="1"
           >
-            <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
+            <q-item
+              clickable
+              :to="{ name: 'laporanPenarikan' }"
+              v-ripple
+              active-class="active"
+            >
               <q-item-section avatar>
                 <q-icon name="payments" />
               </q-item-section>
               <q-item-section> Inventaris </q-item-section>
             </q-item>
-            <q-item clickable :to="{ name: 'laporanPinjaman' }" v-ripple>
+            <q-item
+              clickable
+              :to="{ name: 'laporanPinjaman' }"
+              v-ripple
+              active-class="active"
+            >
               <q-item-section avatar>
                 <q-icon name="price_change" />
               </q-item-section>
@@ -158,7 +175,7 @@
             clickable
             :to="{ name: 'mitra' }"
             v-ripple
-            style="color: #588157"
+            active-class="active"
           >
             <q-item-section avatar>
               <q-icon name="payments" />
@@ -167,62 +184,11 @@
             <q-item-section> Mitra </q-item-section>
           </q-item>
 
-          <!-- <q-expansion-item
-            expand-separator
-            icon="groups"
-            label="Mitra"
-            :content-inset-level="1"
-          >
-            <q-item clickable :to="{ name: 'laporanPenarikan' }" v-ripple>
-              <q-item-section avatar>
-                <q-icon name="payments" />
-              </q-item-section>
-              <q-item-section> Laporan Penarikan </q-item-section>
-            </q-item>
-            <q-item clickable :to="{ name: 'laporanPinjaman' }" v-ripple>
-              <q-item-section avatar>
-                <q-icon name="price_change" />
-              </q-item-section>
-              <q-item-section> Laporan Pinjaman </q-item-section>
-            </q-item> -->
-          <!-- <q-card>
-              <q-card-section>
-                <q-item
-                  clickable
-                  v-ripple
-                  :to="{ name: 'customer' }"
-                  style="color: #588157"
-                >
-                  <q-item-section avatar>
-                    <q-icon
-                      name="sentiment_satisfied_alt"
-                      style="color: #588157"
-                    />
-                  </q-item-section>
-
-                  <q-item-section style="color: #588157">
-                    Customer
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-ripple :to="{ name: 'supplier' }">
-                  <q-item-section avatar>
-                    <q-icon name="local_shipping" style="color: #588157" />
-                  </q-item-section>
-
-                  <q-item-section style="color: #588157">
-                    Supplier / Vendor
-                  </q-item-section>
-                </q-item>
-              </q-card-section>
-            </q-card> -->
-          <!-- </q-expansion-item> -->
-
           <q-item
             clickable
             :to="{ name: 'laporan' }"
             v-ripple
-            style="color: #588157"
+            active-class="active"
           >
             <q-item-section avatar>
               <q-icon name="summarize" />
@@ -235,7 +201,7 @@
             @click="confirm = true"
             clickable
             v-ripple
-            style="color: #588157"
+            active-class="active"
           >
             <q-item-section avatar>
               <q-icon name="sentiment_very_dissatisfied" />
@@ -285,3 +251,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+body.body--dark {
+  background: #333333;
+}
+.active {
+  color: #9f8170;
+  font-weight: bold;
+}
+</style>

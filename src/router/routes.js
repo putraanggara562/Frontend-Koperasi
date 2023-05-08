@@ -6,67 +6,70 @@ const routes = [
       {
         path: "/",
         name: "dashboard",
-        component: () => import("pages/IndexPage.vue"),
+        component: () => import("pages/UnitKoperasi/IndexPage.vue"),
       },
       {
         path: "/nasabah",
         name: "nasabah",
-        component: () => import("pages/Nasabah.vue"),
+        component: () => import("pages/UnitKoperasi/Nasabah.vue"),
       },
       {
         path: "/pendapatan",
         name: "pendapatan",
-        component: () => import("pages/Pendapatan.vue"),
+        component: () => import("pages/UnitKoperasi/Pendapatan.vue"),
       },
       {
         path: "/pengeluaran",
         name: "pengeluaran",
-        component: () => import("pages/Pengeluaran.vue"),
+        component: () => import("pages/UnitKoperasi/Pengeluaran.vue"),
       },
       {
         path: "/peminjaman",
         name: "peminjaman",
-        component: () => import("pages/Peminjaman.vue"),
+        component: () => import("pages/UnitKoperasi/Peminjaman.vue"),
       },
       {
         path: "/data-laporan",
         name: "dataLaporan",
-        component: () => import("pages/laporan/DataLaporan.vue"),
+        component: () => import("pages/UnitKoperasi/laporan/DataLaporan.vue"),
       },
       {
         path: "/laporan-buku-bank",
         name: "laporanBukuBank",
-        component: () => import("pages/laporan/BukuBank.vue"),
+        component: () => import("pages/UnitKoperasi/laporan/BukuBank.vue"),
       },
       {
         path: "/laporan-buku-besar",
         name: "laporanBukuBesar",
-        component: () => import("pages/laporan/BukuBesar.vue"),
+        component: () => import("pages/UnitKoperasi/laporan/BukuBesar.vue"),
       },
       {
         path: "/laporan-buku-pembantu-advance",
         name: "laporanBukuPembantuAdvance",
-        component: () => import("pages/laporan/BukuPembantuAdvance.vue"),
+        component: () =>
+          import("pages/UnitKoperasi/laporan/BukuPembantuAdvance.vue"),
       },
       {
         path: "/laporan-buku-pembantu-biaya",
         name: "laporanBukuPembantuBiaya",
-        component: () => import("pages/laporan/BukuPembantuBiaya.vue"),
+        component: () =>
+          import("pages/UnitKoperasi/laporan/BukuPembantuBiaya.vue"),
       },
       {
         path: "/laporan-buku-kas-kecil",
         name: "laporanBukuKasKecil",
-        component: () => import("pages/laporan/BukuKasKecil.vue"),
+        component: () => import("pages/UnitKoperasi/laporan/BukuKasKecil.vue"),
       },
       {
         path: "/laporan-rekonsiliasi-bank",
         name: "laporanRekonsiliasiBank",
-        component: () => import("pages/laporan/RekonsiliasiBank.vue"),
+        component: () =>
+          import("pages/UnitKoperasi/laporan/RekonsiliasiBank.vue"),
       },
       {
         path: "/profil",
         name: "profil",
-        component: () => import("pages/lanjutan/ProfilPage.vue"),
+        component: () => import("pages/UnitKoperasi/lanjutan/ProfilPage.vue"),
       },
     ],
   },
@@ -101,12 +104,12 @@ const routes = [
   {
     path: "/login",
     name: "login",
-    component: () => import("pages/access/LoginPage.vue"),
+    component: () => import("pages/UnitKoperasi/access/LoginPage.vue"),
   },
   {
     path: "/acces-pengguna",
     name: "accesPengguna",
-    component: () => import("pages/access/MenuAcces.vue"),
+    component: () => import("pages/UnitKoperasi/access/MenuAcces.vue"),
   },
   {
     path: "/:catchAll(.*)*",

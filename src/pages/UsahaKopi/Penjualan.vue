@@ -1,20 +1,16 @@
 <template>
-  <q-page>
+  <q-page class="bg-brown-1">
     <div class="q-pa-md">
       <q-card class="q-pa-md">
-        <q-breadcrumbs
-          separator="---"
-          class="text-blue-10"
-          active-color="secondary"
-        >
+        <q-breadcrumbs separator="---" class="text-brown" active-color="black">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Penjualan" icon="storefront" />
         </q-breadcrumbs>
       </q-card>
 
-      <div class="row q-mt-lg">
+      <div class="row q-mt-md">
         <div class="row q-gutter-md col-12">
-          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-6" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">
@@ -29,24 +25,14 @@
                     class="text-h6 q-ml-sm text-blue-13"
                     style="font-size: 12px"
                   >
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="Number(totalHutang)"
-                      :duration="1"
-                      prefix="IDR "
-                      separator="."
-                      decimalSeparator="."
-                      :decimals="0"
-                      :autoinit="true"
-                    />
+                    900
                   </div>
                 </div>
               </q-card-section>
             </q-card-section>
           </q-card>
 
-          <q-card class="my-card col-lg-3 col-md-4 col-sm-7" flat bordered>
+          <q-card class="my-card col-lg-3 col-md-4 col-sm-6" flat bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
                 <div class="text-h6 q-mt-sm" style="font-size: 14px">
@@ -61,17 +47,7 @@
                     class="text-h6 q-ml-sm text-blue-13"
                     style="font-size: 12px"
                   >
-                    <vue3-autocounter
-                      ref="counter"
-                      :startAmount="0"
-                      :endAmount="Number(totalLunas)"
-                      :duration="1"
-                      prefix="IDR "
-                      separator="."
-                      decimalSeparator="."
-                      :decimals="0"
-                      :autoinit="true"
-                    />
+                    9898
                   </div>
                 </div>
               </q-card-section>
@@ -80,158 +56,178 @@
         </div>
 
         <div class="row col-12 q-mt-md">
-          <q-card class="my-card col" flat bordered>
-            <q-card-section horizontal>
-              <q-card-section class="col-12 q-pa-sm">
-                <q-table
-                  title="Master Data Produk"
-                  aria-label="Text"
-                  class="text-h5"
-                  :rows="rows"
-                  flat
-                  :columns="columns"
-                  row-key="name"
-                  :filter="filterData"
+          <q-card class="col-md-12 col-xs-12" flat bordered>
+            <q-table
+              :rows="rows"
+              :columns="columns"
+              row-key="name"
+              :filter="filter"
+              :pagination="pagination"
+            >
+              <template v-slot:top>
+                <div class="col">
+                  <div class="text-weight-bold">PENJUALAN</div>
+                  <div>Daftar semua penjualan pada saat ini</div>
+                </div>
+
+                <q-space />
+
+                <q-btn
+                  @click="openDialog(false, null)"
+                  icon="library_add"
+                  label="tambah Pengeluaran"
+                  text-color="blue-7"
+                  outline
                 >
-                  <template v-slot:top>
-                    <div class="col">
-                      <div class="col-2 q-table__title">
-                        Master Data Penjualan
-                      </div>
-                      <p class="text-caption">
-                        Data penjualan yang di lakukan di dalam sistem
-                        salsafical.
-                      </p>
-                    </div>
+                </q-btn>
 
-                    <q-space />
-
-                    <q-btn
-                      flat
-                      round
+                <q-btn
+                  flat
+                  color="primary"
+                  icon="search"
+                  @click="visibles = !visibles"
+                  size="md"
+                  class="q-mr-sm"
+                />
+                <q-slide-transition>
+                  <div v-show="visibles">
+                    <q-input
+                      outlined
+                      debounce="300"
+                      placeholder="Pencarian"
+                      style="width: 200px"
                       color="primary"
-                      icon="search"
-                      @click="visibles = !visibles"
-                      size="md"
-                      class="q-mr-sm"
-                    />
-                    <q-slide-transition>
-                      <div v-show="visibles">
-                        <q-input
-                          outlined
-                          debounce="300"
-                          placeholder="Placeholder"
-                          style="width: 300px"
-                          color="primary"
-                          v-model="filterData"
-                          dense
-                        />
-                      </div>
-                    </q-slide-transition>
-                    <q-btn
+                      v-model="filter"
                       dense
-                      icon="add"
-                      class="q-ml-md q-pr-md"
-                      color="blue-13"
-                      :to="{ name: 'penjualan_add' }"
-                      label="Tambah Penjualan"
-                      size="md"
-                      outline
                     />
-                  </template>
-                  <template v-slot:body="props">
-                    <q-tr :props="props">
-                      <q-td key="id_penjualan" :props="props">{{
-                        props.row.id_penjualan
-                      }}</q-td>
-                      <q-td key="pelanggan" :props="props">{{
-                        props.row.pelanggan
-                      }}</q-td>
-                      <q-td key="nomor_telepon" :props="props">{{
-                        props.row.nomor_telepon
-                      }}</q-td>
-                      <q-td key="status_penjualan" :props="props">{{
-                        props.row.status_penjualan
-                      }}</q-td>
-                      <q-td key="tanggal_jatuh_tempo" :props="props">{{
-                        this.$parseDate(props.row.tanggal_jatuh_tempo).fullDate
-                      }}</q-td>
-                      <q-td key="alamat_penagihan" :props="props">
-                        <label v-if="props.row.status_penjualan === 'Hutang'">{{
-                          props.row.alamat_penagihan
-                        }}</label>
-                        <label v-else>{{ "-" }}</label>
-                      </q-td>
-                      <q-td key="grandTotal" :props="props">{{
-                        this.$formatPrice(props.row.grandTotal)
-                      }}</q-td>
-                      <q-td key="produk" :props="props">
-                        <q-btn
-                          @click="
-                            showDetail(
-                              props.row.pelanggan,
-                              props.row.products,
-                              props.row.grandTotal
-                            )
-                          "
-                          outline
-                          color="primary"
-                          label="detail"
-                          size="sm"
-                          class="q-ml-sm"
-                        />
-                      </q-td>
-                      <q-td key="aksi" :props="props">
-                        <q-btn
-                          round
-                          outline
-                          color="red"
-                          @click="this.delete(props.row._id)"
-                          size="sm"
-                          icon="delete"
-                          no-caps
-                          class="q-ml-sm"
-                        />
-                      </q-td>
-                    </q-tr>
-                  </template>
-                </q-table>
-              </q-card-section>
-            </q-card-section>
+                  </div>
+                </q-slide-transition>
+              </template>
+              <template v-slot:body="props">
+                <q-tr :props="props">
+                  <q-td key="namaProduk" :props="props">
+                    {{ props.row.namaProduk }}
+                  </q-td>
+                  <q-td key="harga" :props="props">
+                    {{ props.row.harga }}
+                  </q-td>
+                  <q-td key="jumlah" :props="props">
+                    Rp {{ props.row.jumlah }}
+                  </q-td>
+                  <q-td key="total" :props="props">
+                    Rp {{ props.row.total }}
+                  </q-td>
+                  <q-td key="keterangan" :props="props">
+                    Rp {{ props.row.keterangan }}
+                  </q-td>
+                  <q-td key="action" :props="props">
+                    <div class="justify-center q-gutter-x-xs">
+                      <q-btn
+                        flat
+                        color="blue-8"
+                        size="md"
+                        class="q-px-xs"
+                        icon="edit"
+                        @click="openDialog(true, props.row)"
+                      ></q-btn>
+                      <q-btn
+                        flat
+                        color="red"
+                        size="md"
+                        @click="hapusData(props.row._id)"
+                        class="q-px-xs"
+                        icon="delete"
+                      ></q-btn>
+                    </div>
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
           </q-card>
         </div>
 
-        <q-dialog v-model="detail.visible">
-          <q-card>
-            <q-card-section>
-              <div class="text-h6">
-                #Data Pembelian - {{ detail.pelanggan }}
-              </div>
-            </q-card-section>
+        <q-dialog v-model="dialog">
+          <q-card
+            class="my-card"
+            flat
+            bordered
+            style="width: 600px; max-width: 70vw"
+          >
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar>
+                  <q-icon name="price_change" size="30px" color="brown" />
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label class="text-weight-bold text-uppercase">
+                  Input /Edit Penjualan
+                </q-item-label>
+                <q-item-label caption>
+                  Input atau edit data penjualan
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section class="col-1">
+                <q-btn
+                  flat
+                  dense
+                  icon="close"
+                  class="float-right"
+                  color="grey-8"
+                  v-close-popup
+                ></q-btn>
+              </q-item-section>
+            </q-item>
 
             <q-separator />
 
-            <q-card-section style="max-height: 50vh" class="scroll">
-              <q-table
-                :rows="detail.rows"
-                row-key="name"
-                flat
-                :columns="detail.columns"
-                :hide-pagination="true"
-              />
-            </q-card-section>
+            <q-form @submit="onSubmit()" @reset="onReset()">
+              <q-card-section horizontal>
+                <q-card-section class="q-gutter-md fit">
+                  <q-input
+                    dense
+                    v-model="namaProduk"
+                    outlined
+                    label="Nama Produk "
+                  />
+                  <q-input dense v-model="harga" outlined label="Harga" />
+                </q-card-section>
 
-            <q-separator />
+                <q-separator vertical />
 
-            <q-card-section>
-              <div class="text-h8">
-                <b>Grand Total - </b>{{ this.$formatPrice(detail.grandTotal) }}
-              </div>
-            </q-card-section>
+                <q-card-section class="q-gutter-md fit">
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="jumlah"
+                    outlined
+                    label="Jumlah"
+                  />
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="total"
+                    outlined
+                    label="Total"
+                  />
+                  <q-input
+                    dense
+                    v-model="keterangan"
+                    outlined
+                    label="keterangan"
+                  />
+                </q-card-section>
+              </q-card-section>
 
-            <q-card-actions align="right">
-              <q-btn flat label="Ok" color="primary" v-close-popup />
-            </q-card-actions>
+              <q-separator />
+
+              <q-card-actions>
+                <q-btn flat type="submit" label="Simpan" color="primary" />
+                <q-btn flat type="reset" label="Reset" color="grey" />
+              </q-card-actions>
+            </q-form>
           </q-card>
         </q-dialog>
       </div>
@@ -240,194 +236,173 @@
 </template>
 
 <script>
-import Vue3autocounter from "vue3-autocounter";
+const columns = [
+  {
+    name: "namaProduk",
+    label: "Nama Produk",
+    field: "namaProduk",
+    align: "left",
+  },
+  {
+    name: "harga",
+    label: "Harga",
+    field: "harga",
+    align: "left",
+  },
+  {
+    name: "jumlah",
+    label: "Jumlah",
+    field: "jumlah",
+    align: "left",
+  },
+  {
+    name: "total",
+    label: "Total",
+    field: "total",
+    align: "left",
+  },
+  {
+    name: "keterangan",
+    label: "Keterangan",
+    field: "keterangan",
+    align: "left",
+  },
+  {
+    name: "action",
+    label: "Action",
+    field: "action",
+    align: "center",
+  },
+];
+
+const rows = [];
 
 export default {
-  name: "PageIndex",
+  name: "PenjualanPage",
   components: {
-    "vue3-autocounter": Vue3autocounter,
+    // "vue3-autocounter": Vue3autocounter,
   },
   data() {
     return {
-      visibles: false,
-      filterData: null,
-      totalHutang: 0,
-      totalLunas: 0,
-      columns: [
-        {
-          name: "id_penjualan",
-          required: true,
-          label: "ID Penjualan",
-          align: "left",
-          field: "id_penjualan",
-          sortable: true,
-        },
-        {
-          name: "pelanggan",
-          required: true,
-          label: "Nama pelanggan",
-          align: "left",
-          field: "pelanggan",
-          sortable: true,
-        },
-        {
-          name: "nomor_telepon",
-          required: true,
-          label: "Nomor telepon",
-          align: "left",
-          field: "nomor_telepon",
-          sortable: true,
-        },
-        {
-          name: "status_penjualan",
-          required: true,
-          label: "Status penjualan",
-          align: "left",
-          field: "status_penjualan",
-          sortable: true,
-        },
-        {
-          name: "tanggal_jatuh_tempo",
-          required: true,
-          label: "Tanggal jatuh tempo",
-          align: "left",
-          field: "tanggal_jatuh_tempo",
-          sortable: true,
-        },
-        {
-          name: "alamat_penagihan",
-          required: true,
-          label: "Alamat penagihan",
-          align: "left",
-          field: "alamat_penagihan",
-          sortable: true,
-        },
-        {
-          name: "grandTotal",
-          required: true,
-          label: "Grand Total",
-          align: "left",
-          field: "grandTotal",
-          sortable: true,
-        },
-        {
-          name: "produk",
-          required: true,
-          label: "Detail produk",
-          align: "left",
-          field: "produk",
-          sortable: true,
-        },
-        { name: "aksi", label: "Actions", field: "aksi", align: "center" },
-      ],
-      rows: [],
-      detail: {
-        visible: false,
-        pelanggan: null,
-        grandTotal: null,
-        columns: [
-          {
-            name: "nama_product",
-            required: true,
-            label: "Nama Produk",
-            align: "left",
-            field: "nama_product",
-            sortable: true,
-          },
-          {
-            name: "harga_jual",
-            required: true,
-            label: "Harga Jual",
-            align: "left",
-            field: "harga_jual",
-            sortable: true,
-          },
-          {
-            name: "jumlah_penjualan",
-            required: true,
-            label: "Jumlah Penjualan",
-            align: "left",
-            field: "jumlah_penjualan",
-            sortable: true,
-          },
-          {
-            name: "total",
-            required: true,
-            label: "Subtotal",
-            align: "left",
-            field: "total",
-            sortable: true,
-          },
-        ],
-        rows: [],
+      columns,
+      rows,
+      filter: "",
+      pagination: {
+        rowsPerPage: 10,
       },
+      visibles: false,
+      editMode: false,
+      dialog: false,
+      namaProduk: null,
+      harga: null,
+      jumlah: null,
+      total: null,
+      keterangan: null,
+      idActive: null,
     };
   },
   created() {
-    this.getPenjualan();
+    this.getData();
   },
   methods: {
-    getPenjualan() {
-      try {
-        this.$api.get("penjualan/get").then((res) => {
-          if (res.data.status !== true) {
-            this.$showNotif(res.data.message, "negative");
-          } else {
-            const data = res.data.result;
-            this.rows = data;
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].status_penjualan === "Lunas") {
-                this.totalLunas += data[i].grandTotal;
-              }
-              if (data[i].status_penjualan === "Hutang") {
-                this.totalHutang += data[i].grandTotal;
-              }
+    openDialog(editMode, data) {
+      this.editMode = editMode;
+      if (editMode) {
+        this.namaProduk = data.namaProduk;
+        this.harga = data.harga;
+        this.jumlah = data.jumlah;
+        this.total = data.total;
+        this.keterangan = data.keterangan;
+        this.idActive = data._id;
+      } else {
+        this.namaProduk = null;
+        this.harga = null;
+        this.jumlah = null;
+        this.total = null;
+        this.keterangan = null;
+        this.idActive = null;
+      }
+      this.dialog = true;
+    },
+    resetDialog() {
+      this.editMode = false;
+      this.dialog = false;
+    },
+    resetForm() {
+      this.namaProduk = null;
+      this.harga = null;
+      this.jumlah = null;
+      this.total = null;
+      this.keterangan = null;
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.$axios
+          .put(`penjualan/edit/${this.idActive}`, {
+            namaProduk: this.namaProduk,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+            keterangan: this.keterangan,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
             }
-          }
-        });
-      } catch (e) {
-        this.$showNotif("Terjadi kesalahan !", "negative");
+            this.getData();
+            this.resetDialog();
+            this.resetForm();
+          });
+      } else {
+        this.$axios
+          .post("penjualan/add", {
+            namaProduk: this.namaProduk,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+            keterangan: this.keterangan,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.dialog = false;
+            this.getData();
+          });
       }
     },
-    delete(id) {
-      this.$dialog
-        .create({
-          title: "Peringatan",
-          message: "Apakah Anda Yakin ?",
+    getData() {
+      this.$axios.get("penjualan/getAll").then((res) => {
+        if (res.data.sukses) {
+          this.data = res.data.data;
+        }
+      });
+    },
+    hapusData(_id) {
+      this.$q
+        .dialog({
+          title: "Konfirmasi",
+          message: "Apakah anda yakin ingin menghapus data ini?",
           cancel: true,
           persistent: true,
         })
         .onOk(() => {
-          try {
-            this.$api.delete("/penjualan/delete/" + id).then((res) => {
-              if (res.data.status !== true) {
-                this.$showNotif(res.data.message, "negative");
-              } else {
-                this.totalLunas = 0;
-                this.totalHutang = 0;
-                this.getPenjualan();
-                this.$showNotif(res.data.message, "positive");
-              }
-            });
-          } catch (e) {
-            console.log(e);
-            this.$showNotif("Terjadi kesalahan !", "negative");
-          }
+          this.$axios.delete(`penjualan/delete/${_id}`).then((res) => {
+            if (res.data.sukses) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+          });
         });
     },
-    showDetail(pelanggan, data, grandTotal) {
-      const newData = data.map((r) => {
-        return {
-          nama_product: r.nama_product,
-          harga_jual: this.$formatPrice(r.harga_jual),
-          jumlah_penjualan: r.jumlah_penjualan,
-          total: this.$formatPrice(r.total),
-        };
-      });
-      this.detail.pelanggan = pelanggan;
-      this.detail.visible = true;
-      this.detail.rows = newData;
-      this.detail.grandTotal = grandTotal;
+    onReset() {
+      this.namaProduk = null;
+      this.harga = null;
+      this.jumlah = null;
+      this.total = null;
+      this.keterangan = null;
     },
   },
 };

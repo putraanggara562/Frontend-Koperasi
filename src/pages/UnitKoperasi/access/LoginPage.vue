@@ -99,8 +99,8 @@
   </q-layout>
 </template>
 <script>
-import Lottie from "../../components/Lottie.vue";
-import * as animationData from "../../assets/sign.json";
+import Lottie from "../../../components/Lottie.vue";
+import * as animationData from "../../../assets/sign.json";
 
 export default {
   name: "LoginPage",

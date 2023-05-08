@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <q-card class="bg-transparent no-shadow no-border">
     <q-card-section class="q-pa-none">
       <div class="row q-col-gutter-sm ">
@@ -99,4 +99,4 @@ export default defineComponent({
     }
   }
 })
-</script>
+</script> -->

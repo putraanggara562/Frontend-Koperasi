@@ -1,12 +1,8 @@
 <template>
-  <q-page>
+  <q-page class="bg-brown-1">
     <div class="q-pa-md">
       <q-card class="q-pa-md">
-        <q-breadcrumbs
-          separator="---"
-          class="text-blue-10"
-          active-color="secondary"
-        >
+        <q-breadcrumbs separator="---" class="text-brown" active-color="black">
           <q-breadcrumbs-el label="Main Menu" icon="widgets" />
           <q-breadcrumbs-el label="Pembelian" icon="shopping_bag" />
         </q-breadcrumbs>
@@ -134,45 +130,26 @@
 
                   <template v-slot:body="props">
                     <q-tr :props="props">
-                      <q-td key="id_pembelian" :props="props">{{
-                        props.row.id_pembelian
-                      }}</q-td>
-                      <q-td key="namaSupplier" :props="props">{{
-                        props.row.dataSupplier[0].namaSupplier
-                      }}</q-td>
-                      <q-td key="nomorTelepon" :props="props">{{
-                        props.row.nomorTelepon
-                      }}</q-td>
-                      <q-td key="statusPembelian" :props="props">{{
-                        props.row.statusPembelian
-                      }}</q-td>
-                      <q-td key="tanggalJatuhTempo" :props="props">{{
-                        this.$parseDate(props.row.tanggalJatuhTempo).fullDate
-                      }}</q-td>
-                      <q-td key="alamatSupplier" :props="props">
-                        <label v-if="props.row.statusPembelian === 'Hutang'">{{
-                          props.row.alamatSupplier
-                        }}</label>
-                        <label v-else>{{ "-" }}</label>
+                      <q-td key="namaSupplier" :props="props">
+                        {{ props.row.namaSupplier }}
                       </q-td>
-                      <q-td key="grandTotal" :props="props">{{
-                        this.$formatPrice(props.row.grandTotal)
-                      }}</q-td>
-                      <q-td key="barang" :props="props">
-                        <q-btn
-                          @click="
-                            showDetail(
-                              props.row._id,
-                              props.row.supplier,
-                              props.row.grandTotal
-                            )
-                          "
-                          outline
-                          color="primary"
-                          label="detail"
-                          size="sm"
-                          class="q-ml-sm"
-                        />
+                      <q-td key="keterangan" :props="props">
+                        {{ props.row.keterangan }}
+                      </q-td>
+                      <q-td key="nomorTelepon" :props="props">
+                        {{ props.row.nomorTelepon }}
+                      </q-td>
+                      <q-td key="statusPembelian" :props="props">
+                        {{ props.row.statusPembelian }}
+                      </q-td>
+                      <q-td key="jumlah" :props="props">
+                        {{ props.row.jumlah }}
+                      </q-td>
+                      <q-td key="harga" :props="props">
+                        {{ props.row.harga }}
+                      </q-td>
+                      <q-td key="total" :props="props">
+                        {{ props.row.total }}
                       </q-td>
                       <q-td key="aksi" :props="props">
                         <q-btn
@@ -194,38 +171,96 @@
           </q-card>
         </div>
 
-        <q-dialog v-model="detail.visible">
-          <q-card>
-            <q-card-section>
-              <div class="text-h6">#Detail Pembelian Barang</div>
-              <p class="text-caption q-ml-md">
-                supplier: <b>{{ detail.supplier }}</b>
-              </p>
-            </q-card-section>
+        <q-dialog v-model="dialog">
+          <q-card
+            class="my-card"
+            flat
+            bordered
+            style="width: 600px; max-width: 70vw"
+          >
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar>
+                  <q-icon name="price_change" size="30px" color="brown" />
+                </q-avatar>
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label class="text-weight-bold text-uppercase">
+                  Input /Edit Pembelian
+                </q-item-label>
+                <q-item-label caption>
+                  Input atau edit data pembelian
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section class="col-1">
+                <q-btn
+                  flat
+                  dense
+                  icon="close"
+                  class="float-right"
+                  color="grey-8"
+                  v-close-popup
+                ></q-btn>
+              </q-item-section>
+            </q-item>
 
             <q-separator />
 
-            <q-card-section style="max-height: 50vh" class="scroll">
-              <q-table
-                :rows="detail.rows"
-                row-key="name"
-                flat
-                :columns="detail.columns"
-                :hide-pagination="true"
-              />
-            </q-card-section>
+            <q-form @submit="onSubmit()" @reset="onReset()">
+              <q-card-section horizontal>
+                <q-card-section class="q-gutter-md fit">
+                  <q-input
+                    dense
+                    v-model="namaSupplier"
+                    outlined
+                    label="Nama Supplier "
+                  />
+                  <q-input dense v-model="keterangan" outlined label="Harga" />
+                </q-card-section>
 
-            <q-separator />
+                <q-separator vertical />
 
-            <q-card-section>
-              <div class="text-h8 q-ml-md">
-                <b>Grand Total - </b>{{ this.$formatPrice(detail.grandTotal) }}
-              </div>
-            </q-card-section>
+                <q-card-section class="q-gutter-md fit">
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="nomorTelepon"
+                    outlined
+                    label="Nomor Telpon"
+                  />
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="jumlah"
+                    outlined
+                    label="Jumlah"
+                  />
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="harga"
+                    outlined
+                    label="Harga"
+                  />
+                  <q-input
+                    dense
+                    type="number"
+                    v-model="total"
+                    outlined
+                    label="Total"
+                  />
+                </q-card-section>
+              </q-card-section>
 
-            <q-card-actions align="right">
-              <q-btn flat label="Ok" color="primary" v-close-popup />
-            </q-card-actions>
+              <q-separator />
+
+              <q-card-actions>
+                <q-btn flat type="submit" label="Simpan" color="primary" />
+                <q-btn flat type="reset" label="Reset" color="grey" />
+              </q-card-actions>
+            </q-form>
           </q-card>
         </q-dialog>
       </div>
@@ -234,243 +269,171 @@
 </template>
 
 <script>
-import Vue3autocounter from "vue3-autocounter";
+const columns = [
+  {
+    name: "namaProduk",
+    label: "Nama Produk",
+    field: "namaProduk",
+    align: "left",
+  },
+  {
+    name: "harga",
+    label: "Harga",
+    field: "harga",
+    align: "left",
+  },
+  {
+    name: "jumlah",
+    label: "Jumlah",
+    field: "jumlah",
+    align: "left",
+  },
+  {
+    name: "total",
+    label: "Total",
+    field: "total",
+    align: "left",
+  },
+  {
+    name: "keterangan",
+    label: "Keterangan",
+    field: "keterangan",
+    align: "left",
+  },
+  {
+    name: "action",
+    label: "Action",
+    field: "action",
+    align: "center",
+  },
+];
+
+const rows = [];
 
 export default {
-  name: "PageIndex",
-  components: {
-    "vue3-autocounter": Vue3autocounter,
-  },
+  name: "PenjualanPage",
+  components: {},
   data() {
     return {
-      visibles: false,
-      filter: null,
-      totalHutang: 0,
-      totalLunas: 0,
-      columns: [
-        {
-          name: "id_pembelian",
-          required: true,
-          label: "ID Pembelian",
-          align: "left",
-          field: "id_pembelian",
-          sortable: true,
-        },
-        {
-          name: "namaSupplier",
-          required: true,
-          label: "Nama Supplier",
-          align: "left",
-          field: "namaSupplier",
-          sortable: true,
-        },
-        {
-          name: "nomorTelepon",
-          required: true,
-          label: "Nomor Telepon",
-          align: "left",
-          field: "nomorTelepon",
-          sortable: true,
-        },
-        {
-          name: "statusPembelian",
-          required: true,
-          label: "Status Pembelian",
-          align: "left",
-          field: "statusPembelian",
-          sortable: true,
-        },
-        {
-          name: "tanggalJatuhTempo",
-          required: true,
-          label: "Tanggal jatuh tempo",
-          align: "left",
-          field: "tanggalJatuhTempo",
-          sortable: true,
-        },
-        {
-          name: "alamatSupplier",
-          required: true,
-          label: "Alamat supplier",
-          align: "left",
-          field: "alamatSupplier",
-          sortable: true,
-        },
-        {
-          name: "grandTotal",
-          required: true,
-          label: "Grand Total",
-          align: "left",
-          field: "grandTotal",
-          sortable: true,
-        },
-        {
-          name: "barang",
-          required: true,
-          label: "Detail Barang",
-          align: "left",
-          field: "barang",
-          sortable: true,
-        },
-        { name: "aksi", label: "Actions", field: "aksi", align: "center" },
-      ],
-      rows: [],
-      detail: {
-        visible: false,
-        grandTotal: null,
-        supplier: null,
-        columns: [
-          {
-            name: "idPembelian",
-            required: true,
-            label: "ID Pembelian",
-            align: "left",
-            field: "idPembelian",
-            sortable: true,
-          },
-          {
-            name: "namaBarang",
-            required: true,
-            label: "Nama Barang",
-            align: "left",
-            field: "namaBarang",
-            sortable: true,
-          },
-          {
-            name: "hargaSatuan",
-            required: true,
-            label: "Harga Satuan",
-            align: "left",
-            field: "hargaSatuan",
-            sortable: true,
-          },
-          {
-            name: "jumlahPembelian",
-            required: true,
-            label: "Jumlah Pembelian",
-            align: "left",
-            field: "jumlahPembelian",
-            sortable: true,
-          },
-          {
-            name: "pajak",
-            required: true,
-            label: "Pajak",
-            align: "left",
-            field: "pajak",
-            sortable: true,
-          },
-          {
-            name: "total",
-            required: true,
-            label: "Subtotal",
-            align: "left",
-            field: "total",
-            sortable: true,
-          },
-          {
-            name: "stok",
-            required: true,
-            label: "Stok",
-            align: "left",
-            field: "stok",
-            sortable: true,
-          },
-          {
-            name: "deskripsi",
-            required: true,
-            label: "Deskripsi",
-            align: "left",
-            field: "deskripsi",
-            sortable: true,
-          },
-        ],
-        rows: [],
+      columns,
+      rows,
+      filter: "",
+      pagination: {
+        rowsPerPage: 10,
       },
+      visibles: false,
+      editMode: false,
+      dialog: false,
+      namaProduk: null,
+      harga: null,
+      jumlah: null,
+      total: null,
+      keterangan: null,
+      idActive: null,
     };
   },
   created() {
-    this.getPembelian();
+    this.getData();
   },
   methods: {
-    getPembelian() {
-      try {
-        this.$api.get("pembelian/get").then((res) => {
-          if (res.data.status !== true) {
-            this.$showNotif(res.data.message, "negative");
-          } else {
-            const data = res.data.result;
-            this.rows = data;
-            for (let i = 0; i < data.length; i++) {
-              if (data[i].statusPembelian === "Lunas") {
-                this.totalLunas += data[i].grandTotal;
-              }
-              if (data[i].statusPembelian === "Hutang") {
-                this.totalHutang += data[i].grandTotal;
-              }
+    openDialog(editMode, data) {
+      this.editMode = editMode;
+      if (editMode) {
+        this.namaProduk = data.namaProduk;
+        this.harga = data.harga;
+        this.jumlah = data.jumlah;
+        this.total = data.total;
+        this.keterangan = data.keterangan;
+        this.idActive = data._id;
+      } else {
+        this.namaProduk = null;
+        this.harga = null;
+        this.jumlah = null;
+        this.total = null;
+        this.keterangan = null;
+        this.idActive = null;
+      }
+      this.dialog = true;
+    },
+    resetDialog() {
+      this.editMode = false;
+      this.dialog = false;
+    },
+    resetForm() {
+      this.namaProduk = null;
+      this.harga = null;
+      this.jumlah = null;
+      this.total = null;
+      this.keterangan = null;
+    },
+    onSubmit() {
+      if (this.editMode) {
+        this.$axios
+          .put(`penjualan/edit/${this.idActive}`, {
+            namaProduk: this.namaProduk,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+            keterangan: this.keterangan,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
             }
-          }
-        });
-      } catch (e) {
-        this.$showNotif("Terjadi kesalahan !", "negative");
+            this.getData();
+            this.resetDialog();
+            this.resetForm();
+          });
+      } else {
+        this.$axios
+          .post("penjualan/add", {
+            namaProduk: this.namaProduk,
+            harga: this.harga,
+            jumlah: this.jumlah,
+            total: this.total,
+            keterangan: this.keterangan,
+          })
+          .then((res) => {
+            console.log(res);
+            if ((res.data.sukses = true)) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.dialog = false;
+            this.getData();
+          });
       }
     },
-    showDetail(id, supplier, grandTotal) {
-      try {
-        this.$api.get("pembelian/detail/" + id).then((res) => {
-          if (res.data.status !== true) {
-            this.$showNotif(res.data.message, "negative");
-          } else {
-            this.detail.rows = res.data.result.map((r) => {
-              return {
-                _id: r._id,
-                objectIdPembelian: r.objectIdPembelian,
-                idPembelian: r.idPembelian,
-                namaBarang: r.namaBarang,
-                hargaSatuan: this.$formatPrice(r.hargaSatuan),
-                jumlahPembelian: r.jumlahPembelian,
-                pajak: r.pajak + "%",
-                stok: r.stok,
-                deskripsi: r.deskripsi,
-                total: this.$formatPrice(r.total),
-              };
-            });
-            this.detail.supplier = supplier;
-            this.detail.grandTotal = grandTotal;
-            this.detail.visible = true;
-          }
-        });
-        this.detail.visible = true;
-      } catch (e) {
-        console.log(e);
-        this.$showNotif("Terjadi kesalahan !", "negative");
-      }
+    getData() {
+      this.$axios.get("penjualan/getAll").then((res) => {
+        if (res.data.sukses) {
+          this.data = res.data.data;
+        }
+      });
     },
-    delete(id) {
-      this.$dialog
-        .create({
-          title: "Peringatan",
-          message: "Apakah Anda Yakin ?",
+    hapusData(_id) {
+      this.$q
+        .dialog({
+          title: "Konfirmasi",
+          message: "Apakah anda yakin ingin menghapus data ini?",
           cancel: true,
           persistent: true,
         })
         .onOk(() => {
-          try {
-            this.$api.delete("/pembelian/delete/" + id).then((res) => {
-              if (res.data.status !== true) {
-                this.$showNotif(res.data.message, "negative");
-              } else {
-                this.totalLunas = 0;
-                this.totalHutang = 0;
-                this.getPembelian();
-                this.$showNotif(res.data.message, "positive");
-              }
-            });
-          } catch (e) {
-            console.log(e);
-            this.$showNotif("Terjadi kesalahan !", "negative");
-          }
+          this.$axios.delete(`penjualan/delete/${_id}`).then((res) => {
+            if (res.data.sukses) {
+              this.$successNotif(res.data.pesan, "positive");
+            }
+            this.getData();
+          });
         });
+    },
+    onReset() {
+      this.namaProduk = null;
+      this.harga = null;
+      this.jumlah = null;
+      this.total = null;
+      this.keterangan = null;
     },
   },
 };

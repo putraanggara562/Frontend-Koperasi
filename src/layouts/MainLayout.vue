@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="mode" bordered>
+    <q-header bordered>
       <q-toolbar>
         <q-btn
           @click="leftDrawerOpen = !leftDrawerOpen"
