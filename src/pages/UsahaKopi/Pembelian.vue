@@ -269,6 +269,7 @@
 </template>
 
 <script>
+import Vue3autocounter from "vue3-autocounter";
 const columns = [
   {
     name: "namaProduk",
@@ -312,7 +313,9 @@ const rows = [];
 
 export default {
   name: "PenjualanPage",
-  components: {},
+  components: {
+    "vue3-autocounter": Vue3autocounter,
+  },
   data() {
     return {
       columns,
@@ -329,6 +332,8 @@ export default {
       jumlah: null,
       total: null,
       keterangan: null,
+      totalHutang: 4000,
+      totalLunas: 2000,
       idActive: null,
     };
   },
